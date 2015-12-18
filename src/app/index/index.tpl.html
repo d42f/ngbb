@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="form-inline">
+      <div class="form-group">
+        <label>From date:</label>
+        <input type="date" class="form-control" ng-model="filter.dt_fm" uib-datepicker-popup is-open="status.from.opened" ng-click="status.from.opened = !status.from.opened" show-button-bar="false" max-date="filter.to">
+      </div>
+      <div class="form-group">
+        <label>to:</label>
+        <input type="date" class="form-control" ng-model="filter.dt_to" uib-datepicker-popup is-open="status.to.opened" ng-click="status.to.opened = !status.to.opened" show-button-bar="false" min-date="filter.from">
+      </div>
+      <div class="checkbox">
+        <label><input type="checkbox"> In stock only</label>
+      </div>
+    </div>
+  </div>
+</div>
+<hr class="hr-sm">
+<div class="row">
+  <div class="col-md-12">
+    <div class="form-inline">
+      <div class="form-group">
+        <label>Price from:</label>
+        <input type="number" class="form-control" ng-model="filter.ps_fm">
+      </div>
+      <div class="form-group">
+        <label>to:</label>
+        <input type="number" class="form-control" ng-model="filter.ps_to">
+      </div>
+      <div class="form-group">
+        <label>Color:</label>
+        <select class="form-control" ng-model="filter.clr">
+          <option value="red">Red</option>
+          <option value="blue">Blue</option>
+          <option value="white">White</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+<hr>

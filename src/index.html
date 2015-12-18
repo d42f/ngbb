@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-app="ngApp" ng-controller="AppCtrl">
+  <head>
+    <title ng-bind="pageTitle"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- compiled CSS --><% styles.forEach(function (file) { %>
+    <link rel="stylesheet" href="<%= file %>?<%= new Date().getTime() %>"><% }); %>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" ui-sref="index">SW test</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse" ng-if="$root.Storage.CurrentUser">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a ui-sref="signout">Sign out</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" ui-view="layout"></div>
+
+    <!-- compiled JavaScript --><% scripts.forEach(function (file) { %>
+    <script src="<%= file %>?<%= new Date().getTime() %>"></script><% }); %>
+
+    <% if (grunt.task.current.nameArgs == "index:build") { %><script>
+      if (window.localStorage['__livereload'] != 0) {
+        var s = document.createElement('script');
+        s.src = window.location.protocol + '//' + window.location.hostname + ':35729/' + 'livereload.js';
+        document.body.appendChild(s);
+      }
+    </script><% } %>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <form name="SigninForm" novalidate ng-submit="signin(SigninForm)">
+      <div class="alert alert-danger" ng-show="invalidLoginOrPassword">
+        <p>Invalid login or password</p>
+      </div>
+      <div class="alert alert-warning" ng-show="SigninForm.$submitted && SigninForm.$invalid">
+        <p ng-show="SigninForm.email.$error.required">Enter email</p>
+        <p ng-show="!SigninForm.email.$error.required && SigninForm.email.$invalid">Invalid email</p>
+        <p ng-show="SigninForm.password.$error.required">Enter password</p>
+      </div>
+      <div class="form-group">
+        <label>Email address:</label>
+        <input class="form-control input-lg" type="email" name="email" placeholder="Email" ng-model="user.email" ng-required="true">
+      </div>
+      <div class="form-group">
+        <label>Password:</label>
+        <input class="form-control input-lg" type="password" name="password" placeholder="Password" ng-model="user.password" ng-required="true">
+      </div>
+      <div class="row">
+        <div class="col-xs-6">
+          <button class="btn btn-lg btn-block btn-primary" type="submit">Sign in</button>
+        </div>
+        <div class="col-xs-6">
+          <a class="btn btn-lg btn-block btn-default" ui-sref="signup"> or sign up?</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

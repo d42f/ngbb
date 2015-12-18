@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <form name="SignupForm" novalidate ng-submit="signup(SignupForm)">
+      <div class="alert alert-warning" ng-show="SignupForm.$submitted && SignupForm.$invalid">
+        <div ng-show="SignupForm.email.$error.required">Enter email</div>
+        <div ng-show="!SignupForm.email.$error.required && SignupForm.email.$invalid">Invalid email</div>
+        <div ng-show="SignupForm.password.$error.required">Enter password</div>
+        <div ng-show="SignupForm.password2.$error.required">Enter password again</div>
+        <div ng-show="SignupForm.password2.$error.equal">Passwords are not equal</div>
+      </div>
+      <div class="form-group">
+        <label>Email address:</label>
+        <input class="form-control input-lg" type="email" name="email" placeholder="Email" ng-model="user.email" ng-required="true">
+      </div>
+      <div class="form-group">
+        <label>Password:</label>
+        <input class="form-control input-lg" type="password" name="password" placeholder="Password" ng-model="user.password" ng-required="true">
+      </div>
+      <div class="form-group">
+        <label>Password again:</label>
+        <input class="form-control input-lg" type="password" name="password2" placeholder="Password again" ng-model="user.password2" ng-required="true" sw-password="password">
+      </div>
+      <div class="row">
+        <div class="col-xs-6">
+          <button class="btn btn-lg btn-block btn-primary" type="submit">Sign up</button>
+        </div>
+        <div class="col-xs-6">
+          <a class="btn btn-lg btn-block btn-default" ui-sref="signin">already sign up?</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
