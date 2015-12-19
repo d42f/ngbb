@@ -18,6 +18,7 @@ angular.module('ngApp.states.signout', [
 })
 
 .controller('SignoutCtrl', function SignoutCtrl ($scope, $state, localStorage) {
+  localStorage.val('UserCart', undefined);
   localStorage.val('CurrentUser', undefined);
   $state.go('signin');
 })

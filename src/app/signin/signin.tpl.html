@@ -4,16 +4,16 @@
       <div class="alert alert-danger" ng-show="invalidLoginOrPassword">
         <span>Invalid login or password</span>
       </div>
-      <div class="form-group">
-        <label>Email address:</label>
+      <div class="form-group" ng-class="{'has-error': SigninForm.$submitted && SigninForm.email.$invalid}">
+        <label class="control-label">Email address:</label>
         <input class="form-control input-lg" type="email" name="email" placeholder="Email" required ng-model="user.email">
         <span class="help-block" ng-show="SigninForm.$submitted">
           <span ng-show="SigninForm.email.$error.required">enter email</span>
           <span ng-show="!SigninForm.email.$error.required && SigninForm.email.$invalid">enter valid email</span>
         </span>
       </div>
-      <div class="form-group">
-        <label>Password:</label>
+      <div class="form-group" ng-class="{'has-error': SigninForm.$submitted && SigninForm.password.$invalid}">
+        <label class="control-label">Password:</label>
         <input class="form-control input-lg" type="password" name="password" placeholder="Password" required ng-model="user.password">
         <span class="help-block" ng-show="SigninForm.$submitted">
           <span ng-show="SigninForm.password.$error.required">enter password</span>

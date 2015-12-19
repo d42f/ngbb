@@ -68,13 +68,13 @@ module.exports = {
   vendor_files: {
     js: [
       'vendor/underscore/underscore-min.js',
+      'vendor/jquery/dist/jquery.js',
       'vendor/angular/angular.js',
       'vendor/angular-underscore-module/angular-underscore-module.js',
       'vendor/angular-ui-router/release/angular-ui-router.js',
       'vendor/angular-ui-utils/modules/route/route.js',
       'vendor/angular-loading-bar/build/loading-bar.js',
       'vendor/angular-bootstrap/ui-bootstrap-tpls.js',
-      'vendor/jquery/dist/jquery.js',
       'vendor/bootstrap/js/transition.js',
       //'vendor/bootstrap/js/alert.js',
       //'vendor/bootstrap/js/button.js',
