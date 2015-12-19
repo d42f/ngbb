@@ -1,24 +1,28 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <form name="SignupForm" novalidate ng-submit="signup(SignupForm)">
-      <div class="alert alert-warning" ng-show="SignupForm.$submitted && SignupForm.$invalid">
-        <div ng-show="SignupForm.email.$error.required">Enter email</div>
-        <div ng-show="!SignupForm.email.$error.required && SignupForm.email.$invalid">Invalid email</div>
-        <div ng-show="SignupForm.password.$error.required">Enter password</div>
-        <div ng-show="SignupForm.password2.$error.required">Enter password again</div>
-        <div ng-show="SignupForm.password2.$error.equal">Passwords are not equal</div>
+      <div class="form-group" ng-class="{'has-error': SignupForm.$submitted && SignupForm.email.$invalid}">
+        <label class="control-label">Email address:</label>
+        <input class="form-control input-lg" type="email" name="email" placeholder="Email" required ng-model="user.email">
+        <span class="help-block" ng-show="SignupForm.$submitted">
+          <span ng-show="SignupForm.email.$error.required">enter email</span>
+          <span ng-show="!SignupForm.email.$error.required && SignupForm.email.$invalid">enter valid email</span>
+        </span>
       </div>
-      <div class="form-group">
-        <label>Email address:</label>
-        <input class="form-control input-lg" type="email" name="email" placeholder="Email" ng-model="user.email" ng-required="true">
+      <div class="form-group" ng-class="{'has-error': SignupForm.$submitted && SignupForm.password.$invalid}">
+        <label class="control-label">Password:</label>
+        <input class="form-control input-lg" type="password" name="password" placeholder="Password" required ng-model="user.password">
+        <span class="help-block" ng-show="SignupForm.$submitted">
+          <span ng-show="SignupForm.password.$error.required">enter password</span>
+        </span>
       </div>
-      <div class="form-group">
-        <label>Password:</label>
-        <input class="form-control input-lg" type="password" name="password" placeholder="Password" ng-model="user.password" ng-required="true">
-      </div>
-      <div class="form-group">
-        <label>Password again:</label>
-        <input class="form-control input-lg" type="password" name="password2" placeholder="Password again" ng-model="user.password2" ng-required="true" sw-password="password">
+      <div class="form-group" ng-class="{'has-error': SignupForm.$submitted && SignupForm.password2.$invalid}">
+        <label class="control-label">Password again:</label>
+        <input class="form-control input-lg" type="password" name="password2" placeholder="Password again" required ng-model="user.password2" sw-password="password">
+        <span class="help-block" ng-show="SignupForm.$submitted">
+          <span ng-show="SignupForm.password2.$error.required">enter password again</span>
+          <span ng-show="!SignupForm.password2.$error.required && SignupForm.password2.$error.equal">passwords are not equal</span>
+        </span>
       </div>
       <div class="row">
         <div class="col-xs-6">
