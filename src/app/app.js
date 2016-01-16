@@ -1,6 +1,6 @@
 angular.module('ngApp', [
   'templates-app',
-  'templates-common',
+  'templates-components',
   'ui.router',
   'ui.bootstrap',
   'underscore',
