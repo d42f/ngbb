@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- compiled CSS --><% styles.forEach(function (file) { %>
     <link rel="stylesheet" href="<%= file %>?<%= new Date().getTime() %>"><% }); %>
+    <!-- inject:css -->
+    <!-- endinject -->
   </head>
   <body>
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -31,6 +33,8 @@
 
     <!-- compiled JavaScript --><% scripts.forEach(function (file) { %>
     <script src="<%= file %>?<%= new Date().getTime() %>"></script><% }); %>
+    <!-- inject:js -->
+    <!-- endinject -->
 
     <% if (grunt.task.current.nameArgs == "index:build") { %><script>
       if (window.localStorage['__livereload'] != 0) {
