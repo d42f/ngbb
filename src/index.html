@@ -3,8 +3,6 @@
   <head>
     <title ng-bind="pageTitle"></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- compiled CSS --><% styles.forEach(function (file) { %>
-    <link rel="stylesheet" href="<%= file %>?<%= new Date().getTime() %>"><% }); %>
     <!-- inject:css -->
     <!-- endinject -->
   </head>
@@ -31,17 +29,7 @@
 
     <div class="container" ui-view="layout"></div>
 
-    <!-- compiled JavaScript --><% scripts.forEach(function (file) { %>
-    <script src="<%= file %>?<%= new Date().getTime() %>"></script><% }); %>
     <!-- inject:js -->
     <!-- endinject -->
-
-    <% if (grunt.task.current.nameArgs == "index:build") { %><script>
-      if (window.localStorage['__livereload'] != 0) {
-        var s = document.createElement('script');
-        s.src = window.location.protocol + '//' + window.location.hostname + ':35729/' + 'livereload.js';
-        document.body.appendChild(s);
-      }
-    </script><% } %>
   </body>
 </html>

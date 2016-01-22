@@ -32,7 +32,7 @@ angular.module('ngApp', [
   $httpProvider.defaults.headers.common = {'Content-Type': 'application/json;charset=utf-8'};
 
   $locationProvider.html5Mode({
-    enabled: true,
+    enabled: false,
     requireBase: false
   });
 
