@@ -90,7 +90,7 @@ module.exports = {
       
     ],
     css: [
-      'vendor/angular-loading-bar/build/loading-bar.css',
+      //
     ],
     assets: [
       'vendor/bootstrap/fonts/*',

@@ -11,7 +11,7 @@ CONFIG.compile_dir = 'bin2';
 
 gulp.task('connect.build', function () {
   return connect.server({
-    port: 8080,
+    port: CONFIG.connect_port,
     root: CONFIG.build_dir,
     livereload: true
   });
@@ -19,7 +19,7 @@ gulp.task('connect.build', function () {
 
 gulp.task('connect.compile', function () {
   return connect.server({
-    port: 8080,
+    port: CONFIG.connect_port,
     root: CONFIG.compile_dir,
     livereload: false
   });
