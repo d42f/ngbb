@@ -1,4 +1,6 @@
+var karma = require('karma');
 var gulp = require('gulp');
+var rename = require('gulp-rename');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var inject = require('gulp-inject');
@@ -8,6 +10,24 @@ var connect = require('gulp-connect');
 var CONFIG = require('./build.config.js');
 CONFIG.build_dir = 'build2';
 CONFIG.compile_dir = 'bin2';
+
+gulp.task('bump', function () {
+  return gulp.src(['bower.json', 'package.json'])
+    .pipe(require('gulp-bump')())
+    .pipe(gulp.dest('.'));
+});
+
+gulp.task('bump.minor', function () {
+  return gulp.src(['bower.json', 'package.json'])
+    .pipe(require('gulp-bump')({type: 'minor'}))
+    .pipe(gulp.dest('.'));
+});
+
+gulp.task('bump.major', function () {
+  return gulp.src(['bower.json', 'package.json'])
+    .pipe(require('gulp-bump')({type: 'major'}))
+    .pipe(gulp.dest('.'));
+});
 
 gulp.task('connect.build', function () {
   return connect.server({
@@ -57,7 +77,7 @@ gulp.task('html2js.components', function () {
       useStrict: true,
       target: 'ng'
     }))
-    .pipe(require('gulp-concat')('templates-components.js'))
+    .pipe(concat('templates-components.js'))
     .pipe(gulp.dest(CONFIG.build_dir + '/src/'))
     .pipe(connect.reload());
 });
@@ -70,7 +90,7 @@ gulp.task('html2js.app', function () {
       useStrict: true,
       target: 'ng'
     }))
-    .pipe(require('gulp-concat')('templates-app.js'))
+    .pipe(concat('templates-app.js'))
     .pipe(gulp.dest(CONFIG.build_dir + '/src/'))
     .pipe(connect.reload());
 });
@@ -106,6 +126,18 @@ gulp.task('build.index', ['build.assets'], function () {
   return gulp.start('index');
 });
 
+gulp.task('build.karmaconfig', ['build.assets', 'build.index'], function () {
+  return gulp.src('karma/karma-unit.tpl.js')
+    .pipe(require('gulp-template')({
+      scripts: [].concat(
+        CONFIG.vendor_files.js,
+        CONFIG.vendor_files.test_files
+      )
+    }))
+    .pipe(rename('karma.conf.js'))
+    .pipe(gulp.dest(CONFIG.build_dir));
+});
+
 gulp.task('build', ['clean'], function () {
   return gulp.start('build.assets', 'build.index');
 });
@@ -129,8 +161,22 @@ gulp.task('compile.js', ['build.assets'], function () {
 
 gulp.task('compile.index', ['compile.assets', 'compile.js'], function () {
   return gulp.src('src/index.html')
-    .pipe(inject(gulp.src(CONFIG.compile_dir + '/assets/main.css', {read: false}), {ignorePath: CONFIG.compile_dir}))
-    .pipe(inject(gulp.src(CONFIG.compile_dir + '/assets/app.js', {read: false}), {ignorePath: CONFIG.compile_dir}))
+    .pipe(inject(gulp.src([
+      CONFIG.compile_dir + '/assets/main.css',
+      CONFIG.compile_dir + '/assets/app.js'
+    ], {read: false}), {
+      ignorePath: CONFIG.compile_dir,
+      transform: (function () {
+        var timestamp = new Date().getTime();
+        return function (filepath, file, index, length, targetFile) {
+          var tag = inject.transform.apply(inject.transform, arguments);
+          if (filepath.slice(-3) === '.js') {
+            tag = tag.split('.js').join('.js?' + timestamp);
+          }
+          return tag;
+        };
+      })()
+    }))
     .pipe(require('gulp-htmlmin')({removeComments: true, collapseWhitespace: true}))
     .pipe(gulp.dest(CONFIG.compile_dir));
 });
@@ -150,4 +196,11 @@ gulp.task('watch', ['connect.build', 'build'], function () {
   gulp.watch(['src/**/*.js'], ['js.app']);
 });
 
-gulp.task('default', ['build']);
+gulp.task('test', ['build.karmaconfig'], function (done) {
+  new karma.Server({
+    configFile: __dirname + '/' + CONFIG.build_dir + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
+});
+
+gulp.task('default', ['build', 'test', 'compile']);

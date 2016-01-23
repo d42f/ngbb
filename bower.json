@@ -1,5 +1,5 @@
 {
-  "name": "ng-se-test",
+  "name": "ng-app",
   "version": "0.0.1",
   "devDependencies": {
     "underscore": "~1.8",

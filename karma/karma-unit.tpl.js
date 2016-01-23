@@ -1,4 +1,4 @@
-module.exports = function ( karma ) {
+module.exports = function (karma) {
   karma.set({
     /** 
      * From where to look for files, starting with the location of this file.
@@ -16,8 +16,8 @@ module.exports = function ( karma ) {
     exclude: [
       'src/assets/**/*.js'
     ],
-    frameworks: [ 'jasmine' ],
-    plugins: [ 'karma-jasmine', 'karma-phantomjs-launcher' ],
+    frameworks: ['jasmine'],
+    plugins: ['karma-jasmine', 'karma-phantomjs-launcher'],
 
     /**
      * How to report, by default.
@@ -50,9 +50,7 @@ module.exports = function ( karma ) {
      * open and the tests will automatically occur there during the build. This has
      * the aesthetic advantage of not launching a browser every time you save.
      */
-    browsers: [
-      'PhantomJS'
-    ]
+    browsers: ['PhantomJS']
   });
 };
 
