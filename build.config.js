@@ -19,26 +19,6 @@ module.exports = {
   compile_dir: 'bin',
 
   /**
-   * This is a collection of file patterns that refer to our app code (the
-   * stuff in `src/`). These file paths are used in the configuration of
-   * build tasks. `js` is all project javascript, less tests. `ctpl` contains
-   * our reusable components' (`src/components`) template HTML files, while
-   * `atpl` contains the same, but for our app's code. `html` is just our
-   * main HTML file, `less` is our main stylesheet, and `unit` contains our
-   * app's unit tests.
-   */
-  app_files: {
-    js: [ 'src/**/*.js', '!src/**/*.spec.js', '!src/assets/**/*.js' ],
-    jsunit: [ 'src/**/*.spec.js' ],
-
-    atpl: [ 'src/app/**/*.tpl.html' ],
-    ctpl: [ 'src/components/**/*.tpl.html' ],
-
-    html: [ 'src/index.html' ],
-    less: 'src/less/main.less'
-  },
-
-  /**
    * This is a collection of files used during testing only.
    */
   test_files: {
@@ -72,7 +52,6 @@ module.exports = {
       'vendor/angular/angular.js',
       'vendor/angular-underscore-module/angular-underscore-module.js',
       'vendor/angular-ui-router/release/angular-ui-router.js',
-      'vendor/angular-ui-utils/modules/route/route.js',
       'vendor/angular-loading-bar/build/loading-bar.js',
       'vendor/angular-bootstrap/ui-bootstrap-tpls.js',
       'vendor/bootstrap/js/transition.js',
@@ -87,10 +66,6 @@ module.exports = {
       //'vendor/bootstrap/js/scrollspy.js',
       //'vendor/bootstrap/js/tab.js',
       //'vendor/bootstrap/js/affix.js',
-      
-    ],
-    css: [
-      //
     ],
     assets: [
       'vendor/bootstrap/fonts/*',

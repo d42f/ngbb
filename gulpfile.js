@@ -8,8 +8,6 @@ var html2js = require('gulp-html2js');
 var connect = require('gulp-connect');
 
 var CONFIG = require('./build.config.js');
-CONFIG.build_dir = 'build2';
-CONFIG.compile_dir = 'bin2';
 
 gulp.task('bump', function () {
   return gulp.src(['bower.json', 'package.json'])
@@ -131,7 +129,9 @@ gulp.task('build.karmaconfig', ['build.assets'], function () {
     .pipe(require('gulp-template')({
       scripts: [].concat(
         CONFIG.vendor_files.js,
-        CONFIG.vendor_files.test_files
+        CONFIG.test_files.js,
+        CONFIG.build_dir + '/src/templates-app.js',
+        CONFIG.build_dir + '/src/templates-components.js'
       )
     }))
     .pipe(rename('karma-config.js'))
