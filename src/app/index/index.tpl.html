@@ -4,11 +4,11 @@
       <div class="form-inline">
         <div class="form-group">
           <label>From date:</label>
-          <input type="date" class="form-control" ng-model="filter.dt_fm" uib-datepicker-popup is-open="status.from.opened" ng-click="status.from.opened = !status.from.opened" max-date="filter.dt_to" ng-change="onChangeFilter()">
+          <input type="text" class="form-control" ng-model="filter.dt_fm" uib-datepicker-popup is-open="status.from.opened" ng-click="status.from.opened = !status.from.opened" max-date="filter.dt_to" ng-change="onChangeFilter()">
         </div>
         <div class="form-group">
           <label>to:</label>
-          <input type="date" class="form-control" ng-model="filter.dt_to" uib-datepicker-popup is-open="status.to.opened" ng-click="status.to.opened = !status.to.opened" min-date="filter.dt_fm" ng-change="onChangeFilter()">
+          <input type="text" class="form-control" ng-model="filter.dt_to" uib-datepicker-popup is-open="status.to.opened" ng-click="status.to.opened = !status.to.opened" min-date="filter.dt_fm" ng-change="onChangeFilter()">
         </div>
         <div class="checkbox">
           <label><input type="checkbox" ng-model="filter.stk" ng-change="onChangeFilter()">&nbsp;In stock only</label>
@@ -22,7 +22,7 @@
       <div class="form-inline">
         <div class="form-group">
           <label>Price from:</label>
-          <input type="number" class="form-control" ng-model="filter.ps_fm" ng-change="onChangeFilter()">
+          <input type="number" class="form-control" ng-model="filter.ps_fm" ng-model-options="{debounce: 500}" ng-change="onChangeFilter()">
         </div>
         <div class="form-group">
           <label>to:</label>
@@ -30,7 +30,7 @@
         </div>
         <div class="form-group">
           <label>Color:</label>
-          <select class="form-control" ng-model="filter.clr" ng-change="onChangeFilter()">
+          <select class="form-control" ng-model="filter.clr" ng-model-options="{debounce: 500}" ng-change="onChangeFilter()">
             <option value="">All</option>
             <option ng-repeat="o in colors" value="{{o.value}}" ng-bind="o.title"></option>
           </select>

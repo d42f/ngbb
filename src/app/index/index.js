@@ -83,7 +83,7 @@ angular.module('ngApp.states.index', [
     });
   };
 
-  $scope.onChangeFilter = _.debounce(function () {
+  $scope.onChangeFilter = function () {
     var key;
     for (key in $scope.mediaFilter) {
       if ($scope.mediaFilter.hasOwnProperty(key)) {
@@ -97,10 +97,7 @@ angular.module('ngApp.states.index', [
     }
     angular.extend($scope.mediaFilter, $scope.filter);
     $state.go('.', {filter: _.isEmpty($scope.mediaFilter) ? null : angular.toJson($scope.mediaFilter)});
-    if (!$scope.$$phase) {
-      $scope.$apply();
-    }
-  }, 500);
+  };
 })
 
 ;
