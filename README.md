@@ -1,15 +1,7 @@
-# swex
-
-Environment:
-- node.js ~0.10
-- npm ~1.4
-- grunt-cli ~0.1
-- bower ~1.6
+# ngbb
 
 Instalation:
-- install node.js, npm
-
-- `npm install -g grunt-cli`
+- `npm install -g gulp`
 
 - `npm install -g bower`
 
@@ -17,19 +9,15 @@ Instalation:
 
 - `bower install`
 
-- `grunt default` compile production version
+- `gulp default` compile production version
 
-- `grunt serv` run http server
+- `gulp watch` run http server and watches
 
 Supported commands:
-- `$ grunt build` build development version
+- `$ gulp build` make development version
 
-- `$ grunt compile` compile development version
+- `$ gulp compile` make production version
 
-- `$ grunt default` build development version and compile it to production version
+- `$ gulp default` make development version and compile it to production version
 
-- `$ grunt watch` rebuild development version after change sources
-
-- `$ grunt serv` run http serv with development version
-
-- `$ grunt serv_bin` run http serv with production version
+- `$ gulp watch` run http server and rebuild development version after change sources
