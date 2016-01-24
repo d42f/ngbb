@@ -69,7 +69,7 @@ gulp.task('less', function () {
     .pipe(connect.reload());
 });
 
-gulp.task('html2js.components', function () {
+gulp.task('tpl.components', function () {
   return gulp.src('src/components/**/*.tpl.html')
     .pipe(html2js({
       base: 'src/components',
@@ -82,7 +82,7 @@ gulp.task('html2js.components', function () {
     .pipe(connect.reload());
 });
 
-gulp.task('html2js.app', function () {
+gulp.task('tpl.app', function () {
   return gulp.src('src/app/**/*.tpl.html')
     .pipe(html2js({
       base: 'src/app',
@@ -120,26 +120,22 @@ gulp.task('index', function () {
     .pipe(connect.reload());
 });
 
-gulp.task('build.assets', ['assets.vendor', 'assets.app', 'less', 'html2js.components', 'html2js.app', 'js.vendor', 'js.app']);
+gulp.task('build.assets', ['assets.vendor', 'assets.app', 'less', 'tpl.components', 'tpl.app', 'js.vendor', 'js.app']);
 
 gulp.task('build.index', ['build.assets'], function () {
-  return gulp.start('index');
+  gulp.start('index');
 });
 
-gulp.task('build.karmaconfig', ['build.assets', 'build.index'], function () {
-  return gulp.src('karma/karma-unit.tpl.js')
+gulp.task('build.karmaconfig', ['build.assets'], function () {
+  return gulp.src('karma-config.tpl.js')
     .pipe(require('gulp-template')({
       scripts: [].concat(
         CONFIG.vendor_files.js,
         CONFIG.vendor_files.test_files
       )
     }))
-    .pipe(rename('karma.conf.js'))
+    .pipe(rename('karma-config.js'))
     .pipe(gulp.dest(CONFIG.build_dir));
-});
-
-gulp.task('build', ['clean'], function () {
-  return gulp.start('build.assets', 'build.index');
 });
 
 gulp.task('compile.assets', ['build.assets'], function () {
@@ -181,8 +177,30 @@ gulp.task('compile.index', ['compile.assets', 'compile.js'], function () {
     .pipe(gulp.dest(CONFIG.compile_dir));
 });
 
-gulp.task('compile', ['build'], function () {
-  return gulp.start('compile.assets', 'compile.js', 'compile.index');
+gulp.task('test', ['build.karmaconfig', 'build.index', 'compile.index'], function (done) {
+  new karma.Server({
+    configFile: __dirname + '/' + CONFIG.build_dir + '/karma-config.js',
+    singleRun: true
+  }, done).start();
+});
+
+gulp.task('build', ['clean'], function () {
+  gulp.start('build.assets', 'build.index', 'build.karmaconfig');
+});
+
+gulp.task('compile', ['clean'], function () {
+  gulp.start(
+    'build.assets', 'build.index', 'build.karmaconfig',
+    'compile.assets', 'compile.js', 'compile.index'
+  );
+});
+
+gulp.task('default', ['clean'], function () {
+  gulp.start(
+    'build.assets', 'build.index', 'build.karmaconfig',
+    'compile.assets', 'compile.js', 'compile.index',
+    'test'
+  );
 });
 
 gulp.task('watch', ['connect.build', 'build'], function () {
@@ -190,17 +208,8 @@ gulp.task('watch', ['connect.build', 'build'], function () {
   gulp.watch(['src/**/*.less'], ['less']);
   gulp.watch(['src/index.html'], ['index']);
 
-  gulp.watch(['src/app/**/*.tpl.html'], ['html2js.app']);
-  gulp.watch(['src/components/**/*.tpl.html'], ['html2js.components']);
+  gulp.watch(['src/app/**/*.tpl.html'], ['tpl.app']);
+  gulp.watch(['src/components/**/*.tpl.html'], ['rpl.components']);
 
   gulp.watch(['src/**/*.js'], ['js.app']);
 });
-
-gulp.task('test', ['build.karmaconfig'], function (done) {
-  new karma.Server({
-    configFile: __dirname + '/' + CONFIG.build_dir + '/karma.conf.js',
-    singleRun: true
-  }, done).start();
-});
-
-gulp.task('default', ['build', 'test', 'compile']);
