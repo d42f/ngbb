@@ -54,13 +54,13 @@ gulp.task('assets.vendor', function () {
 });
 
 gulp.task('assets.app', function () {
-  return gulp.src('src/assets/**/*')
+  return gulp.src(CONFIG.source_dir + '/assets/**/*')
     .pipe(gulp.dest(CONFIG.build_dir + '/assets/'))
     .pipe(connect.reload());
 });
 
 gulp.task('less', function () {
-  return gulp.src('src/less/main.less')
+  return gulp.src(CONFIG.source_dir + '/less/main.less')
     .pipe(require('gulp-less')())
     .pipe(require('gulp-minify-css')())
     .pipe(gulp.dest(CONFIG.build_dir + '/assets/'))
@@ -68,35 +68,39 @@ gulp.task('less', function () {
 });
 
 gulp.task('tpl.components', function () {
-  return gulp.src('src/components/**/*.tpl.html')
+  return gulp.src(CONFIG.source_dir + '/components/**/*.tpl.html')
     .pipe(html2js({
-      base: 'src/components',
+      base: CONFIG.source_dir + '/components',
       outputModuleName: 'templates-components',
       useStrict: true,
       target: 'ng'
     }))
     .pipe(concat('templates-components.js'))
-    .pipe(gulp.dest(CONFIG.build_dir + '/src/'))
+    .pipe(gulp.dest(CONFIG.build_dir + '/' + CONFIG.source_dir + '/'))
     .pipe(connect.reload());
 });
 
 gulp.task('tpl.app', function () {
-  return gulp.src('src/app/**/*.tpl.html')
+  return gulp.src(CONFIG.source_dir + '/app/**/*.tpl.html')
     .pipe(html2js({
-      base: 'src/app',
+      base: CONFIG.source_dir + '/app',
       outputModuleName: 'templates-app',
       useStrict: true,
       target: 'ng'
     }))
     .pipe(concat('templates-app.js'))
-    .pipe(gulp.dest(CONFIG.build_dir + '/src/'))
+    .pipe(gulp.dest(CONFIG.build_dir + '/' + CONFIG.source_dir + '/'))
     .pipe(connect.reload());
 });
 
 gulp.task('js.app', function () {
-  return gulp.src(['src/**/**/*.js', '!src/**/**/*.spec.js', '!src/assets/**/*.js'])
+  return gulp.src([
+    CONFIG.source_dir + '/**/**/*.js',
+    '!' + CONFIG.source_dir + '/**/**/*.spec.js',
+    '!' + CONFIG.source_dir + '/assets/**/*.js'
+  ])
     .pipe(require('gulp-ng-annotate')())
-    .pipe(gulp.dest(CONFIG.build_dir + '/src/'))
+    .pipe(gulp.dest(CONFIG.build_dir + '/' + CONFIG.source_dir + '/'))
     .pipe(connect.reload());
 });
 
@@ -106,13 +110,13 @@ gulp.task('js.vendor', function () {
 });
 
 gulp.task('index', function () {
-  return gulp.src('src/index.html')
+  return gulp.src(CONFIG.source_dir + '/index.html')
     .pipe(inject(gulp.src(CONFIG.build_dir + '/assets/main.css', {read: false}), {ignorePath: CONFIG.build_dir}))
     .pipe(inject(gulp.src([].concat(
       CONFIG.vendor_files.js,
-      CONFIG.build_dir + '/src/*',
-      CONFIG.build_dir + '/src/app/**/*',
-      CONFIG.build_dir + '/src/components/**/*'
+      CONFIG.build_dir + '/' + CONFIG.source_dir + '/*',
+      CONFIG.build_dir + '/'+ CONFIG.source_dir + '/app/**/*',
+      CONFIG.build_dir + '/' + CONFIG.source_dir + '/components/**/*'
     ), {read: false}), {ignorePath: CONFIG.build_dir}))
     .pipe(gulp.dest(CONFIG.build_dir))
     .pipe(connect.reload());
@@ -130,8 +134,8 @@ gulp.task('build.karmaconfig', ['build.assets'], function () {
       scripts: [].concat(
         CONFIG.vendor_files.js,
         CONFIG.test_files.js,
-        CONFIG.build_dir + '/src/templates-app.js',
-        CONFIG.build_dir + '/src/templates-components.js'
+        CONFIG.build_dir + '/' + CONFIG.source_dir + '/templates-app.js',
+        CONFIG.build_dir + '/' + CONFIG.source_dir + '/templates-components.js'
       )
     }))
     .pipe(rename('karma-config.js'))
@@ -146,9 +150,9 @@ gulp.task('compile.assets', ['build.assets'], function () {
 gulp.task('compile.js', ['build.assets'], function () {
   return gulp.src([].concat(
     CONFIG.vendor_files.js,
-    CONFIG.build_dir + '/src/*',
-    CONFIG.build_dir + '/src/app/**/*',
-    CONFIG.build_dir + '/src/components/**/*'
+    CONFIG.build_dir + '/' + CONFIG.source_dir + '/*',
+    CONFIG.build_dir + '/' + CONFIG.source_dir + '/app/**/*',
+    CONFIG.build_dir + '/' + CONFIG.source_dir + '/components/**/*'
   ))
     .pipe(concat('app.js'))
     .pipe(uglify())
@@ -156,7 +160,7 @@ gulp.task('compile.js', ['build.assets'], function () {
 });
 
 gulp.task('compile.index', ['compile.assets', 'compile.js'], function () {
-  return gulp.src('src/index.html')
+  return gulp.src(CONFIG.source_dir + '/index.html')
     .pipe(inject(gulp.src([
       CONFIG.compile_dir + '/assets/main.css',
       CONFIG.compile_dir + '/assets/app.js'
@@ -204,12 +208,12 @@ gulp.task('default', ['clean'], function () {
 });
 
 gulp.task('watch', ['connect.build', 'build'], function () {
-  gulp.watch(['src/assets/**/*'], ['assets.app']);
-  gulp.watch(['src/**/*.less'], ['less']);
-  gulp.watch(['src/index.html'], ['index']);
+  gulp.watch([CONFIG.source_dir + '/assets/**/*'], ['assets.app']);
+  gulp.watch([CONFIG.source_dir + '/**/*.less'], ['less']);
+  gulp.watch([CONFIG.source_dir + '/index.html'], ['index']);
 
-  gulp.watch(['src/app/**/*.tpl.html'], ['tpl.app']);
-  gulp.watch(['src/components/**/*.tpl.html'], ['rpl.components']);
+  gulp.watch([CONFIG.source_dir + '/app/**/*.tpl.html'], ['tpl.app']);
+  gulp.watch([CONFIG.source_dir + '/components/**/*.tpl.html'], ['rpl.components']);
 
-  gulp.watch(['src/**/*.js'], ['js.app']);
+  gulp.watch([CONFIG.source_dir + '/**/*.js'], ['js.app']);
 });

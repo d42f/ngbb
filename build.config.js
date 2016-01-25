@@ -15,6 +15,7 @@ module.exports = {
    */
   build_dir: 'build',
   compile_dir: 'bin',
+  source_dir: 'src',
 
   /**
    * This is a collection of files used during testing only.
