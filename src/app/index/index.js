@@ -4,7 +4,7 @@ angular.module('ngApp.states.index', [
 
 .config(function config ($stateProvider) {
   $stateProvider.state('index', {
-    parent: 'swex',
+    parent: 'ngbb',
     auth: true,
     url: '/index?filter',
     reloadOnSearch: false,
@@ -59,10 +59,10 @@ angular.module('ngApp.states.index', [
   }
 
   if (filter.hasOwnProperty('dt_fm')) {
-    filter.dt_fm = angular.swex.parseIsoDate(filter.dt_fm);
+    filter.dt_fm = angular.ngbb.parseIsoDate(filter.dt_fm);
   }
   if (filter.hasOwnProperty('dt_to')) {
-    filter.dt_to = angular.swex.parseIsoDate(filter.dt_to);
+    filter.dt_to = angular.ngbb.parseIsoDate(filter.dt_to);
   }
 
   angular.extend($scope, {

@@ -36,7 +36,7 @@ angular.module('ngApp', [
     requireBase: false
   });
 
-  $stateProvider.state('swex', {
+  $stateProvider.state('ngbb', {
     abstract: true,
     resolve: {
       CurrentUser: function (localStorage) {
@@ -50,7 +50,7 @@ angular.module('ngApp', [
 
 .run(function appRun ($rootScope, localStorage) {
   angular.extend(angular, {
-    swex: {
+    ngbb: {
       parseIsoDate: function (date) {
         var match, regexIso8601 = /^(\d{4}|\+\d{6})(?:-(\d{2})(?:-(\d{2})(?:T(\d{2}):(\d{2}):(\d{2})\.(\d{1,})(Z|([\-+])(\d{2}):(\d{2}))?)?)?)?$/;
         if (typeof date === 'string' && (match = date.match(regexIso8601))) {

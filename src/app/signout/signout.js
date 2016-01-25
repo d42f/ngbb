@@ -4,7 +4,7 @@ angular.module('ngApp.states.signout', [
 
 .config(function config ($stateProvider) {
   $stateProvider.state('signout', {
-    parent: 'swex',
+    parent: 'ngbb',
     url: '/signout',
     views: {
       'layout@': {

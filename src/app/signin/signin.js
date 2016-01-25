@@ -4,7 +4,7 @@ angular.module('ngApp.states.signin', [
 
 .config(function config ($stateProvider) {
   $stateProvider.state('signin', {
-    parent: 'swex',
+    parent: 'ngbb',
     url: '/signin',
     views: {
       'layout@': {
