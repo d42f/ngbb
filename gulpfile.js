@@ -8,6 +8,7 @@ var html2js = require('gulp-html2js');
 var connect = require('gulp-connect');
 
 var CONFIG = require('./build.config.js');
+var utils = require('./build.utils.js');
 
 gulp.task('bump', function () {
   return gulp.src(['bower.json', 'package.json'])
@@ -31,7 +32,9 @@ gulp.task('connect.build', function () {
   return connect.server({
     port: CONFIG.connect_port,
     root: CONFIG.build_dir,
-    livereload: true
+    livereload: true,
+    routes: CONFIG.mockup_rules,
+    middleware: utils.routesMiddleware
   });
 });
 
@@ -39,7 +42,9 @@ gulp.task('connect.compile', function () {
   return connect.server({
     port: CONFIG.connect_port,
     root: CONFIG.compile_dir,
-    livereload: false
+    livereload: false,
+    routes: CONFIG.mockup_rules,
+    middleware: utils.routesMiddleware
   });
 });
 

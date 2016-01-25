@@ -70,4 +70,17 @@ module.exports = {
       'vendor/bootstrap/fonts/*',
     ]
   },
+
+  /**
+   * Rules for mockup
+   */
+  mockup_rules: [
+    {
+      method: 'get',
+      path: '/foo',
+      callback: function (req, res) {
+        res.end('Hello from Connect!');
+      }
+    }
+  ]
 };
