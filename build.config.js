@@ -2,13 +2,11 @@
  * This file/module contains all configuration for the build process.
  */
 module.exports = {
+
+  /**
+   * The port for connect http server
+   */
   connect_port: 8080,
-  connect_proxies: [
-    {
-      url: 'http://localhost:9090',
-      context: ['/api/']
-    }
-  ],
 
   /**
    * The `build_dir` folder is where our projects are compiled during
