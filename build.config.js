@@ -78,7 +78,7 @@ module.exports = {
     {
       method: 'get',
       path: '/foo',
-      callback: function (req, res) {
+      response: function (req, res) {
         res.end('Hello from Connect!');
       }
     }
