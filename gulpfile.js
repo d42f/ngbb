@@ -34,7 +34,7 @@ gulp.task('connect.build', function () {
     root: CONFIG.build_dir,
     livereload: true,
     routes: CONFIG.mockup_rules,
-    middleware: utils.routesMiddleware
+    middleware: utils.connectMiddleware
   });
 });
 
@@ -44,7 +44,7 @@ gulp.task('connect.compile', function () {
     root: CONFIG.compile_dir,
     livereload: false,
     routes: CONFIG.mockup_rules,
-    middleware: utils.routesMiddleware
+    middleware: utils.connectMiddleware
   });
 });
 
