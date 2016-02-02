@@ -8,9 +8,13 @@ var utils = {
       params: [],
       path: o.path,
       method: (o.method || 'GET').toUpperCase(),
-      callback: o.callback || function () {}
+      response: o.response || {}
     };
-    route.regexp = pathToRegexp(route.path, route.keys);
+    try {
+      route.regexp = pathToRegexp(route.path, route.keys);
+    } catch (err) {
+      throw new Error('Failed to call pathToRegexp "' + o.path + '"');
+    }
     return route;
   },
   routeMatch: function (path, route) {
@@ -46,11 +50,16 @@ var utils = {
     var routes = this.routes;
     for (var i = 0, n = routes.length; i < n; i++) {
       if (req.method === routes[i].method && utils.routeMatch(parse(req.url).pathname || req.url, routes[i])) {
-        if (typeof routes[i].callback !== 'function') {
-          throw new Error('Failed to call rule callback "' + routes[i].method + ' ' + routes[i].path + '"');
+        if (typeof routes[i].response === 'function') {
+          routes[i].response.apply(null, [req, res]);
+          break;
         }
-        routes[i].callback.apply(null, [req, res]);
-        break;
+        if (typeof routes[i].response === 'object') {
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify(routes[i].response));
+          break;
+        }
+        throw new Error('Failed to call rule response "' + routes[i].method + ' ' + routes[i].path + '"');
       }
     }
 

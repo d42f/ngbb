@@ -1,5 +1,6 @@
 var karma = require('karma');
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var rename = require('gulp-rename');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
@@ -9,6 +10,12 @@ var connect = require('gulp-connect');
 
 var CONFIG = require('./build.config.js');
 var utils = require('./build.utils.js');
+
+function swallowError (err) {
+  console.log(err.toString());
+  gutil.beep();
+  this.emit('end');
+}
 
 gulp.task('bump', function () {
   return gulp.src(['bower.json', 'package.json'])
@@ -67,7 +74,8 @@ gulp.task('assets.app', function () {
 gulp.task('less', function () {
   return gulp.src(CONFIG.source_dir + '/less/main.less')
     .pipe(require('gulp-less')())
-    .pipe(require('gulp-minify-css')())
+    .on('error', swallowError)
+    .pipe(require('gulp-minify-css')({keepSpecialComments: 0}))
     .pipe(gulp.dest(CONFIG.build_dir + '/assets/'))
     .pipe(connect.reload());
 });
@@ -105,6 +113,7 @@ gulp.task('js.app', function () {
     '!' + CONFIG.source_dir + '/assets/**/*.js'
   ])
     .pipe(require('gulp-ng-annotate')())
+    .on('error', swallowError)
     .pipe(gulp.dest(CONFIG.build_dir + '/' + CONFIG.source_dir + '/'))
     .pipe(connect.reload());
 });
@@ -148,7 +157,7 @@ gulp.task('build.karmaconfig', ['build.assets'], function () {
 });
 
 gulp.task('compile.assets', ['build.assets'], function () {
-  return gulp.src([CONFIG.build_dir + '/assets/**/*'])
+  return gulp.src(CONFIG.build_dir + '/assets/**/*')
     .pipe(gulp.dest(CONFIG.compile_dir + '/assets'));
 });
 
@@ -213,12 +222,12 @@ gulp.task('default', ['clean'], function () {
 });
 
 gulp.task('watch', ['connect.build', 'build'], function () {
-  gulp.watch([CONFIG.source_dir + '/assets/**/*'], ['assets.app']);
-  gulp.watch([CONFIG.source_dir + '/**/*.less'], ['less']);
-  gulp.watch([CONFIG.source_dir + '/index.html'], ['index']);
+  gulp.watch(CONFIG.source_dir + '/assets/**/*', ['assets.app']);
+  gulp.watch(CONFIG.source_dir + '/**/*.less', ['less']);
+  gulp.watch(CONFIG.source_dir + '/index.html', ['index']);
 
-  gulp.watch([CONFIG.source_dir + '/app/**/*.tpl.html'], ['tpl.app']);
-  gulp.watch([CONFIG.source_dir + '/components/**/*.tpl.html'], ['rpl.components']);
+  gulp.watch(CONFIG.source_dir + '/app/**/*.tpl.html', ['tpl.app']);
+  gulp.watch(CONFIG.source_dir + '/components/**/*.tpl.html', ['tpl.components']);
 
-  gulp.watch([CONFIG.source_dir + '/**/*.js'], ['js.app']);
+  gulp.watch(CONFIG.source_dir + '/**/*.js', ['js.app']);
 });
