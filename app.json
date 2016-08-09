@@ -1,0 +1,8 @@
+{
+  "name": "infome-web-client",
+  "description": "infome-web-client",
+  "repository": "https://github.com/xserosm/infome-web-client",
+  "logo": "http://node-js-sample.herokuapp.com/node.svg",
+  "keywords": ["node", "static"],
+  "image": "heroku/nodejs"
+}

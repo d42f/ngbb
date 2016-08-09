@@ -11,11 +11,10 @@ module.exports = function (karma) {
     files: [
       <% scripts.forEach( function ( file ) { %>'<%= file %>',
       <% }); %>
-      'src/**/*.js',
+      'build/assets/app.config.js',
+      'ngapp/**/*.js',
     ],
-    exclude: [
-      'src/assets/**/*.js'
-    ],
+    exclude: [],
     frameworks: ['jasmine'],
     plugins: ['karma-jasmine', 'karma-phantomjs-launcher'],
 
@@ -50,7 +49,9 @@ module.exports = function (karma) {
      * open and the tests will automatically occur there during the build. This has
      * the aesthetic advantage of not launching a browser every time you save.
      */
-    browsers: ['PhantomJS']
+    browsers: [
+      'PhantomJS'
+    ]
   });
 };
 

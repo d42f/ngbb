@@ -2,15 +2,25 @@
   "name": "ng-bb",
   "version": "0.0.1",
   "devDependencies": {
+    "canvas-to-blob": "3.3",
     "underscore": "~1.8",
-    "jquery": "~1.11",
+    "zepto": "~1.1",
+    "jquery": "~1.12",
     "bootstrap": "~3.3",
-    "angular": "~1.4",
-    "angular-mocks": "~1.4",
-    "angular-ui-router": "~0.2",
-    "angular-loading-bar": "0.8",
-    "angular-underscore-module": "~1.0",
-    "angular-bootstrap": "~0.14"
+    "lesshat": "~3.0",
+
+    "angular": "~1.5",
+    "angular-mocks": "~1.5",
+    "angular-ui-router": "~0.3",
+    "angular-loading-bar": "~0.9",
+    "angular-translate": "~2.11",
+    "angular-translate-storage-cookie": "~2.11",
+    "angular-translate-loader-static-files": "~2.11",
+    "angular-ui-notification": "~0.2",
+    "angular-file-upload": "~2.1",
+    "angular-bootstrap": "~0.14",
+    "restangular": "~1.5",
+    "ng-dialog": "~0.6"
   },
   "dependencies": {}
 }

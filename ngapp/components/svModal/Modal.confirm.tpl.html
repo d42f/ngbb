@@ -1,0 +1,16 @@
+<div class="ngdialog-header" ng-if="opts.title">
+  <h3 translate ng-bind="opts.title | translate"></h3>
+</div>
+<div class="ngdialog-body text-center">
+  <span ng-bind="opts.message | translate"></span>
+</div>
+<div class="ngdialog-footer">
+  <button type="button" class="btn btn-green" ng-click="ok()">
+    <span ng-if="opts.ok" ng-bind="opts.ok | translate"></span>
+  	<span ng-if="!opts.ok" translate>Yes</span>
+  </button>
+  <button type="button" class="btn btn-transparent" ng-click="cancel()">
+    <span ng-if="opts.cancel" ng-bind="opts.cancel | translate"></span>
+    <span ng-if="!opts.cancel" translate>No</span>
+  </button>
+</div>

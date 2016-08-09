@@ -3,6 +3,9 @@
  */
 module.exports = {
 
+  langs: ['en', 'ru'],
+  defaultLang: 'en',
+
   /**
    * The port for connect http server
    */
@@ -15,7 +18,7 @@ module.exports = {
    */
   build_dir: 'build',
   compile_dir: 'bin',
-  source_dir: 'src',
+  source_dir: 'ngapp',
 
   /**
    * This is a collection of files used during testing only.
@@ -46,12 +49,19 @@ module.exports = {
    */
   vendor_files: {
     js: [
+      'vendor/canvas-to-blob/js/canvas-to-blob.min.js',
       'vendor/underscore/underscore-min.js',
       'vendor/jquery/dist/jquery.js',
-      'vendor/angular/angular.js',
-      'vendor/angular-underscore-module/angular-underscore-module.js',
-      'vendor/angular-ui-router/release/angular-ui-router.js',
-      'vendor/angular-loading-bar/build/loading-bar.js',
+
+      'vendor/angular/angular.min.js',
+      'vendor/angular-ui-router/release/angular-ui-router.min.js',
+      'vendor/angular-loading-bar/build/loading-bar.min.js',
+      'vendor/angular-translate/angular-translate.min.js',
+      'vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
+      'vendor/angular-ui-notification/dist/angular-ui-notification.min.js',
+      'vendor/angular-file-upload/dist/angular-file-upload.min.js',
+      'vendor/restangular/dist/restangular.min.js',
+      'vendor/ng-dialog/js/ngDialog.min.js',
       'vendor/angular-bootstrap/ui-bootstrap-tpls.js',
       'vendor/bootstrap/js/transition.js',
       //'vendor/bootstrap/js/alert.js',
@@ -74,13 +84,13 @@ module.exports = {
   /**
    * Rules for mockup
    */
-  mockup_rules: [
-    {
-      method: 'get',
-      path: '/foo',
-      response: function (req, res) {
-        res.end('Hello from Connect!');
-      }
-    }
+  mockup_rules: require('./api'),
+
+  /**
+   * Rewrite rules
+   */
+  rewrite_rules: [
+    '^/(assets|vendor|ngapp)/(.*)$ /$1/$2 [L]',
+    '^.+$ /index.html',
   ]
 };

@@ -1,3 +1,4 @@
+var fs = require('fs');
 var karma = require('karma');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
@@ -39,8 +40,10 @@ gulp.task('connect.build', function () {
   return connect.server({
     port: CONFIG.connect_port,
     root: CONFIG.build_dir,
+    debug: true,
     livereload: true,
     routes: CONFIG.mockup_rules,
+    rules: CONFIG.rewrite_rules,
     middleware: utils.connectMiddleware
   });
 });
@@ -49,8 +52,10 @@ gulp.task('connect.compile', function () {
   return connect.server({
     port: CONFIG.connect_port,
     root: CONFIG.compile_dir,
+    debug: false,
     livereload: false,
     routes: CONFIG.mockup_rules,
+    rules: CONFIG.rewrite_rules,
     middleware: utils.connectMiddleware
   });
 });
@@ -58,6 +63,13 @@ gulp.task('connect.compile', function () {
 gulp.task('clean', function () {
   return gulp.src([CONFIG.compile_dir, CONFIG.build_dir], {read: false})
     .pipe(require('gulp-clean')());
+});
+
+gulp.task('assets.config', function () {
+  return gulp.src(fs.existsSync('app.config.json') ? 'app.config.json' : 'app.config.json.default')
+    .pipe(require('gulp-ng-config')('ngApp.config'))
+    .pipe(rename('app.config.js'))
+    .pipe(gulp.dest(CONFIG.build_dir + '/assets/'));
 });
 
 gulp.task('assets.vendor', function () {
@@ -72,10 +84,18 @@ gulp.task('assets.app', function () {
 });
 
 gulp.task('less', function () {
-  return gulp.src(CONFIG.source_dir + '/less/main.less')
+  return gulp.src(CONFIG.source_dir + '/less/app.less')
     .pipe(require('gulp-less')())
     .on('error', swallowError)
-    .pipe(require('gulp-minify-css')({keepSpecialComments: 0}))
+    .pipe(require('gulp-clean-css')({
+      keepSpecialComments: 0,
+      rebase: false,
+      compatibility: {
+        properties: {
+          urlQuotes: true
+        }
+      }
+    }))
     .pipe(gulp.dest(CONFIG.build_dir + '/assets/'))
     .pipe(connect.reload());
 });
@@ -125,18 +145,19 @@ gulp.task('js.vendor', function () {
 
 gulp.task('index', function () {
   return gulp.src(CONFIG.source_dir + '/index.html')
-    .pipe(inject(gulp.src(CONFIG.build_dir + '/assets/main.css', {read: false}), {ignorePath: CONFIG.build_dir}))
+    .pipe(inject(gulp.src(CONFIG.build_dir + '/assets/app.css', {read: false}), {ignorePath: CONFIG.build_dir}))
     .pipe(inject(gulp.src([].concat(
       CONFIG.vendor_files.js,
+      CONFIG.build_dir + '/assets/app.config.js',
       CONFIG.build_dir + '/' + CONFIG.source_dir + '/*',
-      CONFIG.build_dir + '/'+ CONFIG.source_dir + '/app/**/*',
+      CONFIG.build_dir + '/' + CONFIG.source_dir + '/app/**/*',
       CONFIG.build_dir + '/' + CONFIG.source_dir + '/components/**/*'
     ), {read: false}), {ignorePath: CONFIG.build_dir}))
     .pipe(gulp.dest(CONFIG.build_dir))
     .pipe(connect.reload());
 });
 
-gulp.task('build.assets', ['assets.vendor', 'assets.app', 'less', 'tpl.components', 'tpl.app', 'js.vendor', 'js.app']);
+gulp.task('build.assets', ['assets.vendor', 'assets.config', 'assets.app', 'less', 'tpl.components', 'tpl.app', 'js.vendor', 'js.app']);
 
 gulp.task('build.index', ['build.assets'], function () {
   gulp.start('index');
@@ -161,23 +182,33 @@ gulp.task('compile.assets', ['build.assets'], function () {
     .pipe(gulp.dest(CONFIG.compile_dir + '/assets'));
 });
 
+gulp.task('compile.vendorjs', ['build.assets'], function () {
+  return gulp.src([].concat(
+    CONFIG.vendor_files.js
+  ))
+    .pipe(uglify())
+    .pipe(concat('app.vendor.js'))
+    .pipe(gulp.dest(CONFIG.compile_dir + '/assets'));
+});
+
 gulp.task('compile.js', ['build.assets'], function () {
   return gulp.src([].concat(
-    CONFIG.vendor_files.js,
     CONFIG.build_dir + '/' + CONFIG.source_dir + '/*',
     CONFIG.build_dir + '/' + CONFIG.source_dir + '/app/**/*',
     CONFIG.build_dir + '/' + CONFIG.source_dir + '/components/**/*'
   ))
-    .pipe(concat('app.js'))
     .pipe(uglify())
+    .pipe(concat('app.js'))
     .pipe(gulp.dest(CONFIG.compile_dir + '/assets'));
 });
 
-gulp.task('compile.index', ['compile.assets', 'compile.js'], function () {
+gulp.task('compile.index', ['compile.assets', 'compile.vendorjs', 'compile.js'], function () {
   return gulp.src(CONFIG.source_dir + '/index.html')
     .pipe(inject(gulp.src([
-      CONFIG.compile_dir + '/assets/main.css',
-      CONFIG.compile_dir + '/assets/app.js'
+      CONFIG.compile_dir + '/assets/app.css',
+      CONFIG.compile_dir + '/assets/app.vendor.js',
+      CONFIG.compile_dir + '/assets/app.js',
+      CONFIG.compile_dir + '/assets/app.config.js'
     ], {read: false}), {
       ignorePath: CONFIG.compile_dir,
       transform: (function () {
@@ -185,7 +216,7 @@ gulp.task('compile.index', ['compile.assets', 'compile.js'], function () {
         return function (filepath, file, index, length, targetFile) {
           var tag = inject.transform.apply(inject.transform, arguments);
           if (filepath.slice(-3) === '.js') {
-            tag = tag.split('.js').join('.js?' + timestamp);
+            tag = tag.replace('.js', '.js?' + timestamp);
           }
           return tag;
         };
@@ -209,16 +240,31 @@ gulp.task('build', ['clean'], function () {
 gulp.task('compile', ['clean'], function () {
   gulp.start(
     'build.assets', 'build.index', 'build.karmaconfig',
-    'compile.assets', 'compile.js', 'compile.index'
+    'compile.assets', 'compile.vendorjs', 'compile.js', 'compile.index'
   );
 });
 
 gulp.task('default', ['clean'], function () {
   gulp.start(
     'build.assets', 'build.index', 'build.karmaconfig',
-    'compile.assets', 'compile.js', 'compile.index',
-    'test'
+    'compile.assets', 'compile.vendorjs', 'compile.js', 'compile.index'/*,
+    'test'*/
   );
+});
+
+gulp.task('i18n', function () {
+  return gulp.src([
+    CONFIG.source_dir + '/**/*.html',
+    CONFIG.source_dir + '/**/*.js',
+    '!' + CONFIG.source_dir + '/**/*.spec.js',
+    '!' + CONFIG.source_dir + '/assets/**/*.js'
+  ])
+    .pipe(require('gulp-angular-translate-extract')({
+      lang: CONFIG.langs,
+      defaultLang: CONFIG.defaultLang,
+      dest: CONFIG.source_dir + '/assets/translations'
+    }))
+    .pipe(gulp.dest(CONFIG.source_dir));
 });
 
 gulp.task('watch', ['connect.build', 'build'], function () {

@@ -1,0 +1,92 @@
+<header class="header">
+  <div class="header__part-top">
+    <div class="container clearfix">
+      <a href="">
+        <i class="icon icon-logo" lk-icon="logo"></i>
+      </a>
+      <div class="header__tool-bar">
+        <span class="header__tool-item  header__geo-location">
+          <i class="icon icon-geo" lk-icon="geo"></i>
+          <span class="header__location">
+            <span>Россия</span>, <span>Нижний Новгород</span>
+          </span>
+        </span>
+        <span class="header__tool-item  header__read-all">
+          <i class="icon icon-read-all" lk-icon="read-all"></i>
+          <span class="hidden-tooltip">Прочитать все</span>
+        </span>
+        <a ui-sref="signout" class="header__tool-item header__logout">
+          <i class="icon icon-logout" lk-icon="logout"></i>
+          <span class="hidden-tooltip">Выход</span>
+        </a>
+        <a href="profile" class="header__tool-item header__avatar">
+          <span class="wrapper-avatar">
+            <img src="/assets/avatar.jpg" alt="avatar">
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="header__part-bottom">
+    <div class="container clearfix">
+      <nav class="header__nav">
+        <ul class="clearfix">
+          <li class="nav__item" ui-sref-active="active">
+            <a ui-sref="favorites">
+              <i class="icon icon-nav icon-nav-heart" lk-icon="nav-heart"></i>
+              <span>Избранное</span>
+            </a>
+          </li>
+          <li class="nav__item" ui-sref-active="active">
+            <a ui-sref="index">
+              <i class="icon icon-nav icon-nav-interesting" lk-icon="nav-interesting"></i>
+              <span>Интересное</span>
+            </a>
+          </li>
+          <li class="nav__item" ui-sref-active="active">
+            <a ui-sref="channels.info">
+              <i class="icon icon-nav icon-nav-info" lk-icon="nav-info-channels"></i>
+              <span>Инфо каналы</span>
+            </a>
+          </li>
+          <li class="nav__item" ui-sref-active="active">
+            <a ui-sref="channels.my">
+              <i class="icon icon-nav icon-nav-my" lk-icon="nav-my-channels"></i>
+              <span>Мои каналы</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="header__search">
+        <form action="">
+          <div class="search-block">
+            <label>
+              <input type="text" placeholder="Название канала, тематика или ID">
+              <i class="icon icon-search" lk-icon="search"></i>
+              <div class="line-below-search"></div>
+            </label>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="header__buffer"></div>
+<div ui-view="page"></div>
+<footer class="footer">
+  <nav class="footer__nav">
+    <ul class="clearfix">
+      <li>&copy; InfoMe, 2016.</li>
+      <li>
+        <a href="privacy-policy">Политика конфеденциальности</a>
+      </li>
+      <li>
+        <a href="about">О проекте</a>
+      </li>
+      <li>
+        <a href="partnership">Партнерство</a>
+      </li>
+    </ul>
+  </nav>
+</footer>
+<div class="footer-buffer"></div>

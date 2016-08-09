@@ -1,0 +1,53 @@
+<div class="jumbotron">
+  <form name="SignupForm" ng-if="!state.success && !user.userId" novalidate ng-submit="signup(SignupForm)">
+    <div class="form-group" ng-class="{'has-error': SignupForm.$submitted && SignupForm.phone.$invalid}">
+      <label class="control-label"><span translate>Phone</span>:</label>
+      <input class="form-control input-lg" type="phone" name="phone" placeholder="{{'Phone' | translate}}" required ng-model="user.phone">
+      <span class="help-block" ng-show="SignupForm.$submitted">
+        <span ng-show="SignupForm.phone.$error.required" translate>enter phone</span>
+        <span ng-show="!SignupForm.phone.$error.required && SignupForm.phone.$invalid" translate>enter valid phone</span>
+      </span>
+    </div>
+    <div>
+      <button class="btn btn-primary" type="submit" translate>Sign up</button>
+      <a class="btn btn-link" ui-sref="signin" translate>already sign up?</a>
+    </div>
+  </form>
+  <form name="SignupConfirmForm" ng-if="!state.success && user.userId" novalidate ng-submit="confirm(SignupConfirmForm)">
+  	<div class="form-group" ng-class="{'has-error': SignupConfirmForm.$submitted && SignupConfirmForm.code.$invalid}">
+      <label class="control-label"><span translate>Code</span>:</label>
+      <input class="form-control input-lg" type="number" name="code" placeholder="{{'Code' | translate}}" required ng-model="user.code">
+      <span class="help-block" ng-show="SignupConfirmForm.$submitted">
+        <span ng-show="SignupConfirmForm.code.$error.required" translate>enter code</span>
+        <span ng-show="!SignupConfirmForm.code.$error.required && SignupConfirmForm.code.$invalid" translate>enter valid code</span>
+      </span>
+    </div>
+    <div class="form-group" ng-class="{'has-error': SignupConfirmForm.$submitted && SignupConfirmForm.password.$invalid}">
+      <label class="control-label"><span translate>Password</span>:</label>
+      <input class="form-control input-lg" type="password" name="password" placeholder="{{'Password' | translate}}" required ng-model="user.password">
+      <span class="help-block" ng-show="SignupConfirmForm.$submitted">
+        <span ng-show="SignupConfirmForm.password.$error.required" translate>enter password</span>
+      </span>
+    </div>
+    <div class="form-group" ng-class="{'has-error': SignupConfirmForm.$submitted && SignupConfirmForm.password2.$invalid}">
+      <label class="control-label"><span translate>Password again</span>:</label>
+      <input class="form-control input-lg" type="password" name="password2" placeholder="{{'Password again' | translate}}" required ng-model="user.password2" lk-password="password">
+      <span class="help-block" ng-show="SignupConfirmForm.$submitted">
+        <span ng-show="SignupConfirmForm.password2.$error.required" translate>enter password again</span>
+        <span ng-show="!SignupConfirmForm.password2.$error.required && SignupConfirmForm.password2.$error.equal" translate>passwords are not equal</span>
+      </span>
+    </div>
+    <div>
+      <button class="btn btn-primary" type="submit" translate>Confirm</button>
+      <a class="btn btn-link" ui-sref="signin" translate>already sign up?</a>
+    </div>
+  </form>
+  <div ng-if="state.success">
+    <div class="form-group">
+      <span>Successfull</span>
+    </div>
+    <div>
+      <a class="btn btn-link" ui-sref="signin" translate>Try to sign now</a>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 var parse = require('url').parse;
 var pathToRegexp = require('path-to-regexp');
+var modRewrite = require('connect-modrewrite');
 
 var utils = {
   makeRoute: function (o) {
@@ -51,8 +52,7 @@ var utils = {
     for (var i = 0, n = routes.length; i < n; i++) {
       if (req.method === routes[i].method && utils.routeMatch(parse(req.url).pathname || req.url, routes[i])) {
         if (typeof routes[i].response === 'function') {
-          routes[i].response.apply(null, [req, res]);
-          break;
+          return routes[i].response.apply(null, [req, res]);
         }
         if (typeof routes[i].response === 'object') {
           res.setHeader('Content-Type', 'application/json');
@@ -75,6 +75,8 @@ var utils = {
       }
       middleware.push(utils.routesMiddleware.bind({routes: routes}));
     }
+
+    middleware.push(modRewrite(opt.rules || []));
 
     return middleware;
   }

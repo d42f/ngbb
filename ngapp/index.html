@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html ng-app="ngApp" ng-controller="AppCtrl">
+  <head>
+    <title ng-bind="pageTitle"></title>
+    <meta content="text/html" http-equiv="content-type">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" href="/assets/favicon_16x16.png" type="image/png">
+    <link rel="shortcut icon" href="/assets/favicon_16x16.png" type="image/png">
+    <link rel="apple-touch-icon" href="/assets/favicon_57x57.png">
+    <!-- inject:css -->
+    <!-- endinject -->
+  </head>
+  <body ng-class="bodyClassname" ng-cloak ng-translate-cloak>
+    <div ui-view="layout"></div>
+
+    <!-- inject:js -->
+    <!-- endinject -->
+  </body>
+</html>

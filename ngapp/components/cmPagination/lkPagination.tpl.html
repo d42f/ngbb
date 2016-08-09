@@ -1,0 +1,6 @@
+<ul class="pagination">
+  <li ng-repeat="page in pages" ng-class="{active: page.isCurrent}">
+    <span ng-if="page.isCurrent" ng-bind="::page.title"></span>
+    <a ng-if="!page.isCurrent" ui-sref=".(page.params)" ng-bind="::page.title"></a>
+  </li>
+</ul>

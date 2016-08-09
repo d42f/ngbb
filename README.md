@@ -1,17 +1,7 @@
 # ngbb
 
-Instalation:
-- `npm install -g gulp`
-
-- `npm install -g bower`
-
 - `npm install`
-
-- `bower install`
-
-- `gulp default` compile production version
-
-- `gulp watch` run http server and watches
+- `npm start`
 
 Supported commands:
 - `$ gulp build` make development version
