@@ -3,7 +3,7 @@
 - `npm install`
 - `npm start`
 
-Supported commands:
+## Supported commands:
 - `$ gulp build` make development version
 
 - `$ gulp compile` make production version
@@ -11,3 +11,6 @@ Supported commands:
 - `$ gulp default` make development version and compile it to production version
 
 - `$ gulp watch` run http server and rebuild development version after change sources
+
+## Demo
+[https://ngbb.herokuapp.com](https://ngbb.herokuapp.com)
