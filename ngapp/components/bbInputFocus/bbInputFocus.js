@@ -1,6 +1,6 @@
-angular.module('ngApp.directives.lkInputFocus', [])
+angular.module('ngApp.directives.bbInputFocus', [])
 
-.directive('lkInputFocus', function () {
+.directive('bbInputFocus', function () {
   return {
     restrict: 'A',
     link: function (scope, el, attrs) {

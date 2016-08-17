@@ -1,4 +1,82 @@
-<div class="container">
-  <lk-user-channels channels="channels"></lk-user-channels>
+<div class="well">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-inline">
+        <div class="form-group">
+          <label><span translate>From date</span>:</label>
+          <input type="text" class="form-control" ng-model="filter.dt_fm" uib-datepicker-popup is-open="status.from.opened" ng-click="status.from.opened = !status.from.opened" max-date="filter.dt_to" ng-change="onChangeFilter()">
+        </div>
+        <div class="form-group">
+          <label><span translate>to</span>:</label>
+          <input type="text" class="form-control" ng-model="filter.dt_to" uib-datepicker-popup is-open="status.to.opened" ng-click="status.to.opened = !status.to.opened" min-date="filter.dt_fm" ng-change="onChangeFilter()">
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox" ng-model="filter.stk" ng-change="onChangeFilter()">&nbsp;<span translate>In stock only</span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="hr-xs">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-inline">
+        <div class="form-group">
+          <label><span translate>Price from</span>:</label>
+          <input type="number" class="form-control" ng-model="filter.ps_fm" ng-model-options="{debounce: 500}" ng-change="onChangeFilter()">
+        </div>
+        <div class="form-group">
+          <label><span translate>to</span>:</label>
+          <input type="number" class="form-control" ng-model="filter.ps_to" ng-change="onChangeFilter()">
+        </div>
+        <div class="form-group">
+          <label><span translate>Color</span>:</label>
+          <select class="form-control" ng-model="filter.clr" ng-model-options="{debounce: 500}" ng-change="onChangeFilter()">
+            <option value="" translate>All</option>
+            <option ng-repeat="o in colors" value="{{o.value}}" ng-bind="o.title | translate"></option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<lk-pagination current="page.current" total="page.total" key="'page'"></lk-pagination>
+<hr>
+<div class="jumbotron" ng-if="!(items | media:mediaFilter).length">
+  <h1 translate>Empty list</h1>
+  <p translate>Try to change filter</p>
+</div>
+<div ng-if="items.length">
+  <div class="media filter-list__item" ng-repeat="o in items | media:mediaFilter" data-itemid="{{o.Id}}">
+    <div class="media-left">
+      <img class="media-object" ng-src="{{o.Image}}" alt="">
+    </div>
+    <div class="media-body">
+      <div class="row">
+        <div class="col-md-4">
+          <h4 ng-bind="o.Name"></h4>
+        </div>
+        <div class="col-md-4">
+          <h4 ng-bind="o.IssueDate | date"></h4>
+        </div>
+        <div class="col-md-4 text-center">
+          <h4 ng-bind="o.Price | currency"></h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <span ng-bind="o.Color | color | translate"></span>
+        </div>
+        <div class="col-md-4">
+          <label><input type="checkbox" disabled ng-model="o.InStock">&nbsp;<span translate>In stock</span></label>
+        </div>
+        <div class="col-md-4 text-center">
+          <button class="btn btn-default" type="button" ng-click="toOrder(o)" translate>Order</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <bb-rating value="o.Rating"></bb-rating>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

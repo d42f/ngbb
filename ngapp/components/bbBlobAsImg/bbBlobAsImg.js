@@ -1,16 +1,16 @@
-angular.module('ngApp.directives.lkBlobAsImg', [])
+angular.module('ngApp.directives.bbBlobAsImg', [])
 
-.directive('lkBlobAsImg', function ($timeout) {
+.directive('bbBlobAsImg', function ($timeout) {
   return {
     restrict: 'A',
     scope: {
-      lkBlobAsImg: '='
+      bbBlobAsImg: '='
     },
     link: function (scope, el, attrs) {
       if (scope.lkBlobAsImg) {
         el.attr('src', URL.createObjectURL(scope.lkBlobAsImg));
       }
-      scope.$on('$destroy', scope.$watch('lkBlobAsImg', function (nv, ov) {
+      scope.$on('$destroy', scope.$watch('bbBlobAsImg', function (nv, ov) {
         if (nv === ov) {
           return undefined;
         }

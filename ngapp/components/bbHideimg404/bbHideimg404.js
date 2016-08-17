@@ -1,6 +1,6 @@
-angular.module('ngApp.directives.lkHideimg404', [])
+angular.module('ngApp.directives.bbHideimg404', [])
 
-.directive('lkHideimg404', function () {
+.directive('bbHideimg404', function () {
   function onerror () {
     this.className += ' visibility-hidden';
   }

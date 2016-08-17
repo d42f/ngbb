@@ -55,12 +55,19 @@ angular.module('ngApp', [
 ])
 
 .constant('Const', {
-  pageTitle: 'InfoMe',
+  pageTitle: 'ngbb example app',
   authState: 'signin',
   indexState: 'index',
-  userIdKey: 'infoId',
   defaultLangKey: 'en',
-  defaultDeviceTimezone: 'Europe/London'
+  defaultDeviceTimezone: 'Europe/London',
+  colors: [
+    {value: 'red', title: /*i18nextract*/'Red'},
+    {value: 'white', title: /*i18nextract*/'White'},
+    {value: 'black', title: /*i18nextract*/'Black'},
+    {value: 'blue', title: /*i18nextract*/'Blue'},
+    {value: 'yellow', title: /*i18nextract*/'Yellow'},
+    {value: 'green', title: /*i18nextract*/'Green'}
+  ]
 })
 
 .config(function appConfig (Const, Config, $stateProvider, $httpProvider, $translateProvider, $locationProvider, $urlRouterProvider, NotificationProvider, cfpLoadingBarProvider, ngDialogProvider) {
@@ -110,12 +117,12 @@ angular.module('ngApp', [
   $stateProvider.state('base', {
     abstract: true,
     resolve: {
-      CurrentUser: function (Restangular, UserSession) {
+      CurrentUser: function ($q, UserSession) {
         var user = UserSession.user;
         if (!user.userId) {
           return undefined;
         }
-        return Restangular.one('users', user.userId).get().then(function (rsp) {
+        return $q.resolve({userId: 1}).then(function (rsp) {
           return UserSession.set(rsp);
         }, function () {
           UserSession.reset();
@@ -172,9 +179,6 @@ angular.module('ngApp', [
 
 .run(function appRun ($rootScope, Const, Config, $state, $filter, Restangular, LocalStorage, UserSession) {
   Restangular.setBaseUrl(Config.api);
-  Restangular.user = function () {
-    return this.one('users', UserSession.user.userId);
-  };
   Restangular.withConfig = (function (fn) {
     var withConfig = Restangular.withConfig;
     return function (fn) {

@@ -1,6 +1,6 @@
-angular.module('ngApp.directives.lkPassword', [])
+angular.module('ngApp.directives.bbPassword', [])
 
-.directive('lkPassword', function () {
+.directive('bbPassword', function () {
   return {
     require: '^form',
     link: function(scope, el, attrs, formCtrl) {

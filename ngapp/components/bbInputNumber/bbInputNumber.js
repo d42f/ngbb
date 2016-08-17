@@ -1,6 +1,6 @@
-angular.module('ngApp.directives.lkInputNumber', [])
+angular.module('ngApp.directives.bbInputNumber', [])
 
-.directive('lkInputNumber', function () {
+.directive('bbInputNumber', function () {
   function onkeydown (evt) {
     if (angular.element.inArray(evt.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 || 
       // Allow: Ctrl+A, Command+A

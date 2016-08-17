@@ -1,15 +1,14 @@
-angular.module('ngApp.directives.swRating', [])
+angular.module('ngApp.directives.bbRating', [])
 
-.directive('swRating', function () {
+.directive('bbRating', function () {
   var MAX = 5;
   return {
     restrict: 'AE',
     replace: true,
-    transclude: true,
     scope: {
       value: '='
     },
-    templateUrl: 'swRating/swRating.tpl.html',
+    templateUrl: 'bbRating/bbRating.tpl.html',
     link: function(scope, el, attrs) {
       scope.percents = Math.round(scope.value * 100 / MAX);
     }

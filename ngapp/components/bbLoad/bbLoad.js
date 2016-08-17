@@ -1,6 +1,6 @@
-angular.module('ngApp.directives.lkLoad', [])
+angular.module('ngApp.directives.bbLoad', [])
 
-.directive('lkLoad', function ($parse) {
+.directive('bbLoad', function ($parse) {
   var events = 'load loadeddata loadedmetadata error';
   return {
     restrict: 'A',
