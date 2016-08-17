@@ -1,15 +1,29 @@
+var _ = require('underscore');
+var CONFIG = require('fs').existsSync('app.config.json') ? require('./app.config.json') : null;
+
+CONFIG = _.assign({
+  i18n: {
+    langs: ['en', 'ru'],
+    defaultLang: 'en',
+  },
+  proxies: []
+}, CONFIG ? CONFIG.Config : {});
+
 /**
  * This file/module contains all configuration for the build process.
  */
 module.exports = {
+  AppConfig: CONFIG,
 
-  langs: ['en', 'ru'],
-  defaultLang: 'en',
+  langs: CONFIG.i18n.langs,
+  defaultLang: CONFIG.i18n.defaultLang,
 
   /**
    * The port for connect http server
    */
   connect_port: 8080,
+
+  connect_proxies: CONFIG.proxies,
 
   /**
    * The `build_dir` folder is where our projects are compiled during

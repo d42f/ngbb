@@ -1,6 +1,9 @@
 var parse = require('url').parse;
 var pathToRegexp = require('path-to-regexp');
 var modRewrite = require('connect-modrewrite');
+var request = require('request');
+
+var CONFIG = require('./build.config.js');
 
 var utils = {
   makeRoute: function (o) {
@@ -67,6 +70,30 @@ var utils = {
   },
   connectMiddleware: function (connect, opt) {
     var middleware = [];
+
+    // Proxies
+    middleware.push(function (req, res, next) {
+      if (!Array.isArray(CONFIG.connect_proxies)) {
+        return next();
+      }
+      var proxy;
+      for (var i = CONFIG.connect_proxies.length; i-- > 0;) {
+        var contexts = CONFIG.connect_proxies[i].context;
+        contexts = Array.isArray(contexts) ? contexts : [contexts];
+        for (var j = contexts.length; j-- > 0;) {
+          if (req.url.indexOf(contexts[j]) !== -1) {
+            proxy = {url: req.url, rule: CONFIG.connect_proxies[i]};
+            break;
+          }
+        }
+      }
+      if (!proxy) {
+        return next();
+      }
+      var x = request(proxy.rule.url + proxy.url);
+      req.pipe(x);
+      x.pipe(res);
+    });
 
     if (Array.isArray(opt.routes) && opt.routes.length) {
       var routes = [];

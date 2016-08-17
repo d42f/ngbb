@@ -1,6 +1,10 @@
 {
   "Config": {
-    "debug": false,
-    "api": "/"
+    "debug": true,
+    "api": "/",
+    "i18n": {
+      "langs": ["en", ru"],
+      "defaultLang": "en"
+    }
   }
 }

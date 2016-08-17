@@ -1,7 +1,7 @@
 {
-  "name": "infome-web-client",
-  "description": "infome-web-client",
-  "repository": "https://github.com/xserosm/infome-web-client",
+  "name": "ngbb",
+  "description": "ngbb",
+  "repository": "https://github.com/d42f/ngbb",
   "logo": "http://node-js-sample.herokuapp.com/node.svg",
   "keywords": ["node", "static"],
   "image": "heroku/nodejs"
