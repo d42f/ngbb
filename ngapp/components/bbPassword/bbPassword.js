@@ -4,7 +4,7 @@ angular.module('ngApp.directives.bbPassword', [])
   return {
     require: '^form',
     link: function(scope, el, attrs, formCtrl) {
-      var pwd = formCtrl[attrs.lkPassword],
+      var pwd = formCtrl[attrs.bbPassword],
           pwd2 = formCtrl[attrs.name];
       if (!pwd || !pwd2) {
         return undefined;

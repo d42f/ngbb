@@ -1,5 +1,7 @@
 angular.module('ngApp.states.index', [
-  //
+  'ngApp.filters.color',
+  'ngApp.filters.media',
+  'ngApp.directives.bbRating'
 ])
 
 .config(function config ($stateProvider) {
@@ -49,7 +51,7 @@ angular.module('ngApp.states.index', [
   };
 })
 
-.controller('IndexCtrl', function IndexCtrl ($scope, $state, $stateParams, _, Const, localStorage, IndexCtrlService, Items) {
+.controller('IndexCtrl', function IndexCtrl ($scope, $state, $stateParams, _, Const, LocalStorage, IndexCtrlService, Items) {
   var filter;
   try {
     filter = $stateParams.filter ? angular.fromJson($stateParams.filter) || {} : {};
@@ -65,10 +67,10 @@ angular.module('ngApp.states.index', [
   });
 
   $scope.toOrder = function (o) {
-    var cart = localStorage.val('UserCart');
+    var cart = LocalStorage.val('UserCart');
     cart = angular.isArray(cart) ? cart : [];
     cart.push(o);
-    localStorage.val('UserCart', cart);
+    LocalStorage.val('UserCart', cart);
 
     setTimeout(function () {
       IndexCtrlService.animateAddToCart(o.Id);

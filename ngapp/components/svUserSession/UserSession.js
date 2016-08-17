@@ -3,7 +3,7 @@ angular.module('ngApp.services.UserSession', [])
 .factory('UserSession', function ($rootScope, $injector, $q, LocalStorage) {
   var service = {
     opts: {
-      userIdKey: 'infoId',
+      userIdKey: 'userId',
       authstate: 'signin',
       errorstate: 'error'
     },
@@ -12,7 +12,7 @@ angular.module('ngApp.services.UserSession', [])
       return !!service.user[service.opts.userIdKey];
     },
     set: function (user) {
-      angular.extend(service.user, user, {userId: user.infoId});
+      angular.extend(service.user, user);
       LocalStorage.val('CurrentUser', service.user);
       $rootScope.$broadcast('UserSession.set');
       return service.user;

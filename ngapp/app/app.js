@@ -13,6 +13,8 @@ if (!String.format) {
 
 angular.module('ngApp', [
   /* 3rd party */
+  'ngLocale',
+  'tmh.dynamicLocale',
   'pascalprecht.translate',
   'ui.router',
   'ui-notification',
@@ -30,15 +32,12 @@ angular.module('ngApp', [
   'ngApp.services.Modal',
   'ngApp.services.LocalStorage',
   'ngApp.services.UserSession',
-  'ngApp.directives.lkLoad',
-  'ngApp.directives.lkPassword',
-  'ngApp.directives.lkBlobAsImg',
-  'ngApp.directives.lkHideimg404',
-  'ngApp.directives.lkInputFocus',
-  'ngApp.directives.lkInputNumber',
-  'ngApp.directives.lkIcon',
-  'ngApp.directives.lkPagination',
-  'ngApp.directives.lkUserChannels',
+  'ngApp.directives.bbLoad',
+  'ngApp.directives.bbPassword',
+  'ngApp.directives.bbBlobAsImg',
+  'ngApp.directives.bbHideimg404',
+  'ngApp.directives.bbInputFocus',
+  'ngApp.directives.bbInputNumber',
   /* states */
   'ngApp.states.error',
   'ngApp.states.signup',
@@ -46,9 +45,6 @@ angular.module('ngApp', [
   'ngApp.states.signout',
   'ngApp.states.reset',
   'ngApp.states.index',
-  'ngApp.states.favorites',
-  'ngApp.states.channels',
-  'ngApp.states.channel',
   /* templates */
   'templates-components',
   'templates-app'
@@ -58,7 +54,7 @@ angular.module('ngApp', [
   pageTitle: 'ngbb example app',
   authState: 'signin',
   indexState: 'index',
-  defaultLangKey: 'en',
+  defaultLangKey: 'en-us',
   defaultDeviceTimezone: 'Europe/London',
   colors: [
     {value: 'red', title: /*i18nextract*/'Red'},
@@ -70,7 +66,7 @@ angular.module('ngApp', [
   ]
 })
 
-.config(function appConfig (Const, Config, $stateProvider, $httpProvider, $translateProvider, $locationProvider, $urlRouterProvider, NotificationProvider, cfpLoadingBarProvider, ngDialogProvider) {
+.config(function appConfig (Const, Config, $stateProvider, $httpProvider, $translateProvider, $locationProvider, $urlRouterProvider, tmhDynamicLocaleProvider, NotificationProvider, cfpLoadingBarProvider, ngDialogProvider) {
   for (var key in Config) {
     if (Config.hasOwnProperty(key)) {
       if (typeof Config[key] === 'string' && Config[key].substring(0, 2) === '//') {
@@ -93,6 +89,7 @@ angular.module('ngApp', [
     requireBase: false
   });
 
+  tmhDynamicLocaleProvider.localeLocationPattern('/assets/angular-locale_{{locale}}.js');
   $translateProvider.useStaticFilesLoader({
     prefix: '/assets/translations/',
     suffix: '.json'
@@ -128,7 +125,7 @@ angular.module('ngApp', [
           UserSession.reset();
         });
       },
-      CurrentLanguage: function (Const, Comm, $translate, LocalStorage, CurrentUser) {
+      CurrentLanguage: function (Const, Comm, $q, $translate, tmhDynamicLocale, LocalStorage, CurrentUser) {
         var langKey = LocalStorage.val('langKey') || (CurrentUser ? CurrentUser.language : null) || Const.defaultLangKey,
             findKey = false;
         for (var i = Comm.languages.length; i-- > 0;) {
@@ -139,7 +136,10 @@ angular.module('ngApp', [
         if (!findKey) {
           langKey = Const.defaultLangKey;
         }
-        return $translate.use(langKey).then(function () {
+        return $q.all([
+          $translate.use(langKey),
+          tmhDynamicLocale.set(langKey)
+        ]).then(function () {
           LocalStorage.val('langKey', langKey);
           angular.element('body').removeAttr('ng-translate-cloak');
           return {};
@@ -177,7 +177,7 @@ angular.module('ngApp', [
   });
 })
 
-.run(function appRun ($rootScope, Const, Config, $state, $filter, Restangular, LocalStorage, UserSession) {
+.run(function appRun ($rootScope, Const, Config, $state, $filter, $locale, $translate, tmhDynamicLocale, Restangular, LocalStorage, UserSession) {
   Restangular.setBaseUrl(Config.api);
   Restangular.withConfig = (function (fn) {
     var withConfig = Restangular.withConfig;
@@ -190,6 +190,7 @@ angular.module('ngApp', [
   angular.extend(angular, {
     app: {
       Config: Config,
+      Storage: LocalStorage.storage,
       getSession: function () {
         return UserSession.user;
       },
@@ -272,6 +273,11 @@ angular.module('ngApp', [
         this.$apply();
       }
     },
+    changeLanguage: function (langKey) {
+      LocalStorage.val('langKey', langKey);
+      $translate.use(langKey);
+      tmhDynamicLocale.set(langKey.toLowerCase());
+    },
     filter: function (query) {
       $state.go('.', {query: query ? query : null}); 
     }
@@ -281,7 +287,7 @@ angular.module('ngApp', [
 .controller('AppCtrl', function AppCtrl ($rootScope, Const, $location, $translate, cfpLoadingBar, Notification, LocalStorage, UserSession) {
   $rootScope.$on('UserSession.reset', function (evt) {
     Notification.clearAll();
-    LocalStorage.reset(['langKey']);
+    LocalStorage.reset(['langKey', 'Users']);
   });
 
   $rootScope.$on('$stateChangeStart', UserSession.check);

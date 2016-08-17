@@ -18,7 +18,7 @@ angular.module('ngApp.states.signup', [
   });
 })
 
-.controller('SignupCtrl', function SignupCtrl ($scope, Restangular, cfpLoadingBar, UserSession) {
+.controller('SignupCtrl', function SignupCtrl ($scope, Restangular, cfpLoadingBar, LocalStorage, UserSession) {
   UserSession.reset();
 
   angular.extend($scope, {
@@ -40,39 +40,18 @@ angular.module('ngApp.states.signup', [
     }
     $scope.state.busy = true;
     $scope.state.error = false;
-    cfpLoadingBar.start();
-    Restangular.one('users').customPOST({
-      phone: $scope.user.phone
-    }).then(function (rsp) {
-      $scope.user.userId = rsp.userId;
-    }, function (rsp) {
-      $scope.state.error = rsp.status + (rsp.data && rsp.data.data ? ':' + rsp.data.data : '');
-    }).finally(function () {
-      $scope.state.busy = false;
-    }).finally(cfpLoadingBar.complete);
-  };
 
-  $scope.confirm = function (form) {
-    if (form.$invalid) {
-      return undefined;
-    }
-    if ($scope.state.busy) {
-      return undefined;
-    }
-    $scope.state.busy = true;
-    $scope.state.error = false;
-    cfpLoadingBar.start();
-     Restangular.one('users').one('confirmation').customPOST({
-      userId: $scope.user.userId,
-      code: $scope.user.code,
-      password: $scope.user.password2
-    }).then(function () {
-      $scope.state.success = true;
-    }, function () {
-      $scope.state.error = true;
-    }).finally(function () {
-      $scope.state.busy = false;
-    }).finally(cfpLoadingBar.complete);
+    var user = {
+      userId: new Date().getTime(),
+      email: $scope.user.email,
+      hash: encodeURIComponent($scope.user.password2)
+    };
+    var users = LocalStorage.val('Users');
+    users = angular.isArray(users) ? users : [];
+    users.push(user);
+    LocalStorage.val('Users', users);
+    $scope.state.busy = false;
+    $scope.state.success = true;
   };
 })
 

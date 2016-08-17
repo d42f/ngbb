@@ -7,7 +7,7 @@
     "Price": 114.99,
     "Rating": 4.5,
     "InStock": true,
-    "Image": "http://lorempixel.com/g/150/150"
+    "Image": "//lorempixel.com/150/150?1"
   },
   {
     "Id": 2,
@@ -17,7 +17,7 @@
     "Price": 59.99,
     "Rating": 4.0,
     "InStock": false,
-    "Image": "http://lorempixel.com/g/151/151"
+    "Image": "//lorempixel.com/150/150?2"
   },
   {
     "Id": 3,
@@ -27,7 +27,7 @@
     "Price": 79.99,
     "Rating": 4.1,
     "InStock": false,
-    "Image": "http://lorempixel.com/g/152/152"
+    "Image": "//lorempixel.com/150/150?3"
   },
   {
     "Id": 4,
@@ -37,7 +37,7 @@
     "Price": 99.99,
     "Rating": 3.8,
     "InStock": true,
-    "Image": "http://lorempixel.com/g/153/153"
+    "Image": "//lorempixel.com/150/150?4"
   },
   {
     "Id": 5,
@@ -47,7 +47,7 @@
     "Price": 89.99,
     "Rating": 3.9,
     "InStock": true,
-    "Image": "http://lorempixel.com/g/154/154"
+    "Image": "//lorempixel.com/150/150?5"
   },
   {
     "Id": 6,
@@ -57,7 +57,7 @@
     "Price": 129.99,
     "Rating": 4.0,
     "InStock": true,
-    "Image": "http://lorempixel.com/g/155/155"
+    "Image": "//lorempixel.com/150/150?6"
   },
   {
     "Id": 7,
@@ -67,7 +67,7 @@
     "Price": 179.99,
     "Rating": 4.5,
     "InStock": false,
-    "Image": "http://lorempixel.com/g/156/156"
+    "Image": "//lorempixel.com/150/150?7"
   },
   {
     "Id": 8,
@@ -77,7 +77,7 @@
     "Price": 79.99,
     "Rating": 4.3,
     "InStock": true,
-    "Image": "http://lorempixel.com/g/157/157"
+    "Image": "//lorempixel.com/150/150?8"
   },
   {
     "Id": 9,
@@ -87,7 +87,7 @@
     "Price": 119.99,
     "Rating": 4.8,
     "InStock": false,
-    "Image": "http://lorempixel.com/g/158/158"
+    "Image": "//lorempixel.com/150/150?9"
   },
   {
     "Id": 10,
@@ -97,6 +97,6 @@
     "Price": 349.99,
     "Rating": 4.9,
     "InStock": false,
-    "Image": "http://lorempixel.com/g/159/159"
+    "Image": "//lorempixel.com/150/150?10"
   }
 ]

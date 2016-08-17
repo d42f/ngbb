@@ -1,1 +1,33 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="sr-only" translate>Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" ui-sref="index" translate>My app</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="" class="dropdown-toggle" data-toggle="dropdown">
+            <span ng-if="$root.Storage.langKey === 'en-us'">EN&nbsp;<span class="caret"></span></span>
+            <span ng-if="$root.Storage.langKey === 'ru-ru'">РУ&nbsp;<span class="caret"></span></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li ng-class="{active: $root.Storage.langKey === 'en-us'}">
+              <a href="" ng-click="$root.changeLanguage('en-us')">English</a>
+            </li>
+            <li ng-class="{active: $root.Storage.langKey === 'ru-ru'}">
+              <a href="" ng-click="$root.changeLanguage('ru-ru')">Русский</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
 <div class="container" ui-view="page"></div>

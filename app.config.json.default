@@ -3,8 +3,8 @@
     "debug": true,
     "api": "/",
     "i18n": {
-      "langs": ["en", "ru"],
-      "defaultLang": "en"
+      "langs": ["en-us", "ru-ru"],
+      "defaultLang": "en-us"
     }
   }
 }

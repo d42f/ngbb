@@ -3,8 +3,8 @@ var CONFIG = require('fs').existsSync('app.config.json') ? require('./app.config
 
 CONFIG = _.assign({
   i18n: {
-    langs: ['en', 'ru'],
-    defaultLang: 'en',
+    langs: ['en-us', 'ru-ru'],
+    defaultLang: 'en-us',
   },
   proxies: []
 }, CONFIG ? CONFIG.Config : {});
@@ -72,17 +72,19 @@ module.exports = {
       'vendor/angular-loading-bar/build/loading-bar.min.js',
       'vendor/angular-translate/angular-translate.min.js',
       'vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
+      'vendor/angular-dynamic-locale/dist/tmhDynamicLocale.js',
       'vendor/angular-ui-notification/dist/angular-ui-notification.min.js',
       'vendor/angular-file-upload/dist/angular-file-upload.min.js',
       'vendor/restangular/dist/restangular.min.js',
       'vendor/ng-dialog/js/ngDialog.min.js',
       'vendor/angular-bootstrap/ui-bootstrap-tpls.js',
+
       'vendor/bootstrap/js/transition.js',
       //'vendor/bootstrap/js/alert.js',
       //'vendor/bootstrap/js/button.js',
       //'vendor/bootstrap/js/carousel.js',
       'vendor/bootstrap/js/collapse.js',
-      //'vendor/bootstrap/js/dropdown.js',
+      'vendor/bootstrap/js/dropdown.js',
       //'vendor/bootstrap/js/modal.js',
       //'vendor/bootstrap/js/tooltip.js',
       //'vendor/bootstrap/js/popover.js',
@@ -92,6 +94,8 @@ module.exports = {
     ],
     assets: [
       'vendor/bootstrap/fonts/*',
+      'vendor/angular-i18n/angular-locale_en-us.js',
+      'vendor/angular-i18n/angular-locale_ru-ru.js',
     ]
   },
 

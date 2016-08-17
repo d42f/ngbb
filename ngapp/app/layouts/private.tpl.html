@@ -11,8 +11,22 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
-        <li>
+        <li ng-if="$root.Storage.UserCart.length">
           <a href=""><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;(<span ng-bind="$root.Storage.UserCart.length"></span>)</a>
+        </li>
+        <li class="dropdown">
+          <a href="" class="dropdown-toggle" data-toggle="dropdown">
+            <span ng-if="$root.Storage.langKey === 'en-us'">EN&nbsp;<span class="caret"></span></span>
+            <span ng-if="$root.Storage.langKey === 'ru-ru'">РУ&nbsp;<span class="caret"></span></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li ng-class="{active: $root.Storage.langKey === 'en-us'}">
+              <a href="" ng-click="$root.changeLanguage('en-us')">English</a>
+            </li>
+            <li ng-class="{active: $root.Storage.langKey === 'ru-ru'}">
+              <a href="" ng-click="$root.changeLanguage('ru-ru')">Русский</a>
+            </li>
+          </ul>
         </li>
         <li>
           <a ui-sref="signout" translate>Sign out</a>

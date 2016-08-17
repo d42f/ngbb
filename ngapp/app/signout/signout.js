@@ -17,14 +17,9 @@ angular.module('ngApp.states.signout', [
   });
 })
 
-.controller('SignoutCtrl', function SignoutCtrl ($scope, $state, Restangular, cfpLoadingBar, UserSession) {
-  cfpLoadingBar.start();
-  Restangular.one('users', UserSession.user.userId).one('logout').customPOST({
-    infoId: UserSession.user.infoId
-  }).then(function () {
-    UserSession.reset();
-    $state.go('signin');
-  }).finally(cfpLoadingBar.complete);
+.controller('SignoutCtrl', function SignoutCtrl ($scope, $state, Restangular, UserSession) {
+  UserSession.reset();
+  $state.go('signin');
 })
 
 ;

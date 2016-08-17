@@ -11,11 +11,14 @@
 
     "angular": "~1.5",
     "angular-mocks": "~1.5",
-    "angular-ui-router": "~0.3",
-    "angular-loading-bar": "~0.9",
+    "angular-i18n": "~1.5",
     "angular-translate": "~2.11",
     "angular-translate-storage-cookie": "~2.11",
     "angular-translate-loader-static-files": "~2.11",
+    "angular-dynamic-locale": "~0.1",
+
+    "angular-ui-router": "~0.3",
+    "angular-loading-bar": "~0.9",
     "angular-ui-notification": "~0.2",
     "angular-file-upload": "~2.1",
     "angular-bootstrap": "~0.14",

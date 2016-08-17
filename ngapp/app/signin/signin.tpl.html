@@ -1,26 +1,33 @@
-<div class="jumbotron" ng-class="{'visibility-hidden': state.isAuth}">
-  <form name="SigninForm" novalidate ng-submit="signin(SigninForm)">
-    <div class="alert alert-danger" ng-if="state.error == '401'">
-      <span translate>Invalid phone or password</span>
-    </div>
-    <div class="form-group" ng-class="{'has-error': SigninForm.$submitted && SigninForm.phone.$invalid}">
-      <label class="control-label"><span translate>Phone</span>:</label>
-      <input class="form-control input-lg" type="phone" name="phone" placeholder="{{'Phone' | translate}}" required ng-model="user.phone">
-      <span class="help-block" ng-show="SigninForm.$submitted">
-        <span ng-show="SigninForm.phone.$error.required" translate>enter phone</span>
-        <span ng-show="!SigninForm.phone.$error.required && SigninForm.phone.$invalid" translate>enter valid phone</span>
-      </span>
-    </div>
-    <div class="form-group" ng-class="{'has-error': SigninForm.$submitted && SigninForm.password.$invalid}">
-      <label class="control-label"><span translate>Password</span>:</label>
-      <input class="form-control input-lg" type="password" name="password" placeholder="{{'Password' | translate}}" required ng-model="user.password">
-      <span class="help-block" ng-show="SigninForm.$submitted">
-        <span ng-show="SigninForm.password.$error.required" translate>enter password</span>
-      </span>
-    </div>
-    <div>
-      <button class="btn btn-primary" type="submit" translate>Sign in</button>
-      <a class="btn btn-link" ui-sref="signup" translate>or sign up?</a>
-    </div>
-  </form>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <h3 translate>Sign in</h3>
+    <form name="SigninForm" novalidate ng-submit="signin(SigninForm)">
+      <div class="alert alert-danger" ng-if="state.error == '401'">
+        <span translate>Invalid email or password</span>
+      </div>
+      <div class="form-group" ng-class="{'has-error': SigninForm.$submitted && SigninForm.email.$invalid}">
+        <label class="control-label"><span translate>Email</span>:</label>
+        <input class="form-control input-lg" type="email" name="email" placeholder="{{'Email' | translate}}" required ng-model="user.email">
+        <span class="help-block" ng-show="SigninForm.$submitted">
+          <span ng-show="SigninForm.email.$error.required" translate>enter email</span>
+          <span ng-show="!SigninForm.email.$error.required && SigninForm.email.$invalid" translate>enter valid email</span>
+        </span>
+      </div>
+      <div class="form-group" ng-class="{'has-error': SigninForm.$submitted && SigninForm.password.$invalid}">
+        <label class="control-label"><span translate>Password</span>:</label>
+        <input class="form-control input-lg" type="password" name="password" placeholder="{{'Password' | translate}}" required ng-model="user.password">
+        <span class="help-block" ng-show="SigninForm.$submitted">
+          <span ng-show="SigninForm.password.$error.required" translate>enter password</span>
+        </span>
+      </div>
+      <div class="row">
+        <div class="col-xs-6">
+          <button class="btn btn-lg btn-block btn-primary" type="submit" translate>Sign in</button>
+        </div>
+        <div class="col-xs-6">
+          <a class="btn btn-lg btn-block btn-default" ui-sref="signup" translate> or sign up?</a>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

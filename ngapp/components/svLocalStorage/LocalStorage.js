@@ -1,7 +1,7 @@
 angular.module('ngApp.services.LocalStorage', [])
 
 .factory('LocalStorage', function ($window) {
-  var STORAGEKEY = 'LKCLIENT',
+  var STORAGEKEY = 'NGAPPCLIENT',
       storageContainer = $window['localStorage'] || {},
       storage, service;
 
