@@ -1,9 +1,8 @@
 # ngbb
-
 - `npm install`
 - `npm start`
 
-## Supported commands:
+## Supported commands
 - `$ gulp build` make development version
 
 - `$ gulp compile` make production version
