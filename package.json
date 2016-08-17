@@ -44,6 +44,9 @@
     "karma-jasmine": "^0.3.6",
     "karma-phantomjs-launcher": "^0.2.3",
     "optimist": "^0.6.1",
-    "path-to-regexp": "^1.2.1"
+    "path-to-regexp": "^1.2.1",
+    "request": "^2.74.0",
+    "underscore": "^1.8.3"
+
   }
 }

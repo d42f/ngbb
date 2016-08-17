@@ -1,6 +1,6 @@
 {
-  "name": "ngbb",
-  "description": "ngbb",
+  "name": "ng-bb",
+  "description": "ng-bb example app",
   "repository": "https://github.com/d42f/ngbb",
   "logo": "http://node-js-sample.herokuapp.com/node.svg",
   "keywords": ["node", "static"],
